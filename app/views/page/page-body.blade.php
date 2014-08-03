@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!-- BEGIN HEADER -->
 @include('page.page-body-header')
 <!-- END HEADER -->
@@ -15,3 +16,13 @@
     <!-- END QUICK SIDEBAR -->
 </div>
 <!-- END CONTAINER -->
+=======
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+>>>>>>> fb461793d581aa5af0edaa76cb054438c0c7a9dc
