@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <div class="page-footer">
     <div class="page-footer-inner">
         {{$pageFooter->title}}
@@ -52,14 +51,3 @@ jQuery(document).ready(function() {
     //END CUSTOM INIT
 });
 </script>
-<!-- END JAVASCRIPTS -->
-=======
-<?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
->>>>>>> fb461793d581aa5af0edaa76cb054438c0c7a9dc
