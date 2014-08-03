@@ -1,6 +1,6 @@
 <?php
 namespace Frenzycode\ViewModels\Page;
-
+use HTML;
 class PageFooter {
     public $title = '';
     public $customScripts = array();

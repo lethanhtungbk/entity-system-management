@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <meta charset="utf-8"/>
 @if ($pageHead != null)
 <title>{{$pageHead->title}}</title>
@@ -32,13 +31,3 @@
 @endforeach
 <!-- END CUSTOM STYLES -->
 <link rel="shortcut icon" href="favicon.ico"/>
-=======
-<?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
->>>>>>> fb461793d581aa5af0edaa76cb054438c0c7a9dc

@@ -28,7 +28,7 @@
         @include('components.button-bar',array('buttonBar' => $pageBody->buttonBar))
         <div class="row">
             <div class="col-md-12">
-                Page content goes here
+                @include('table.table-content',array('dataTable' => $pageBody->dataTable))
             </div>
         </div>
         <!-- END PAGE CONTENT-->
