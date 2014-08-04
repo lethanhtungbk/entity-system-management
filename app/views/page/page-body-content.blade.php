@@ -26,9 +26,10 @@
         <!-- END PAGE HEADER-->
         <!-- BEGIN PAGE CONTENT-->
         @include('components.button-bar',array('buttonBar' => $pageBody->buttonBar))
+        
         <div class="row">
             <div class="col-md-12">
-                @include('table.table-content',array('dataTable' => $pageBody->dataTable))
+                @include('portlet.portlet',array('portletData' => $pageBody->portletData))
             </div>
         </div>
         <!-- END PAGE CONTENT-->

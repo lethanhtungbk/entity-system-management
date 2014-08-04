@@ -1,8 +1,12 @@
-<?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+@if ($formData != null)
+{{ Form::open(array('url' => URL::to($formData->url),'class' => $formData->class , 'method' => $formData->method)) }}
+<div class="form-body">
+    @foreach ($formData->formItems as $field)
+    @include($field->ui,array('field' => $field))
+    @endforeach   
+</div>
+<div class="form-actions fluid">
+    
+</div>
+{{Form::close()}}
+@endif

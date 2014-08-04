@@ -8,6 +8,8 @@ class PageBody {
     public $breadcrumbs = array();
     
     public $buttonBar;
+    public $formData;
+    public $portletData;
     
     public function addMenuItem($menuItem)
     {

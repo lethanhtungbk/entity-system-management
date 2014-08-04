@@ -20,10 +20,13 @@ use Frenzycode\ViewModels\Table\DataTable;
 use Frenzycode\ViewModels\Table\HeadColumn;
 use Frenzycode\ViewModels\Table\DataRow;
 use Frenzycode\ViewModels\Table\DataColumn;
+use Frenzycode\ViewModels\Form\FormData;
+use Frenzycode\ViewModels\Form\FormItemData;
+use Frenzycode\ViewModels\Portlet\PortletData;
 
 Route::get('/', function() {
     $page = test();
-    return View::make('page.page-index',array('pageData' => $page));
+    return View::make('page.page-index', array('pageData' => $page));
 });
 
 function test() {
@@ -79,7 +82,7 @@ function test() {
         $dataRow->addDataColumn(new DataColumn(array('data' => '120 ' . $i)));
         $dataRow->addDataColumn(new DataColumn(array('data' => '12 Jan 2012 ' . $i)));
         //$dataRow->addDataColumn(new DataColumn(array('data' => '12 Jan 2012 ' . $i)));
-        $dataRow->addDataColumn(new DataColumn(array('data' => $buttonBar,'style' => 'width="11%"'), DataColumn::TYPE_BUTTON));
+        $dataRow->addDataColumn(new DataColumn(array('data' => $buttonBar, 'style' => 'width="11%"'), DataColumn::TYPE_BUTTON));
     }
 
 
@@ -87,5 +90,84 @@ function test() {
 
     //var_dump($pageData->body->dataTable->dataRows[0]);
 
+    $formData = new FormData();
+
+    //$pageData->body->formData = $formData;
+
+    $multipleValues = array('1' => 'value 1', '2' => 'value 2', '3' => 'value 3', '4' => 'value 4');
+    $multipleSelected = array(1, 4);
+
+    $field = new FormItemData();
+    $field->name = 'checkbox';
+    $field->value = $multipleValues;
+    $field->selected = $multipleSelected;
+    $field->desc = 'Checkbox Field';
+    $field->ui = 'form.items.checkbox';
+    $formData->addFormItem($field);
+
+
+    $field = new FormItemData();
+    $field->name = 'dropdown';
+    $field->value = $multipleValues;
+    $field->selected = 3;
+    $field->desc = 'Drop Field';
+    $field->ui = 'form.items.dropdown';
+    $formData->addFormItem($field);
+
+
+    $field = new FormItemData();
+    $field->name = 'hidden';
+    $field->value = 'hiddenValue';
+    $field->ui = 'form.items.hidden';
+    $formData->addFormItem($field);
+
+
+    $field = new FormItemData();
+    $field->name = 'list_single';
+    $field->value = $multipleValues;
+    $field->selected = 3;
+    $field->desc = 'List Single Field';
+    $field->ui = 'form.items.list';
+    $formData->addFormItem($field);
+
+
+    $field = new FormItemData();
+    $field->name = 'list_multiple';
+    $field->value = $multipleValues;
+    $field->selected = $multipleSelected;
+    $field->desc = 'List Multiple Field';
+    $field->ui = 'form.items.list';
+    $formData->addFormItem($field);
+
+
+    $field = new FormItemData();
+    $field->name = 'radio';
+    $field->value = $multipleValues;
+    $field->selected = 4;
+    $field->desc = 'List Multiple Field';
+    $field->ui = 'form.items.radio';
+    $formData->addFormItem($field);
+
+
+    $field = new FormItemData();
+    $field->name = 'textfield';
+    $field->value = "Select text field";
+    $field->desc = 'Textfield Field';
+    $field->ui = 'form.items.textfield';
+    $formData->addFormItem($field);
+
+    $field = new FormItemData();
+    $field->name = 'textarea';
+    $field->value = 'Select text area';
+    $field->desc = 'List Multiple Field';
+    $field->ui = 'form.items.textarea';
+    $formData->addFormItem($field);
+
+    $portletData = new PortletData();
+    $portletData->title = 'Fields';
+    $portletData->content = $formData;
+    
+    $pageData->body->portletData = $portletData;
+    
     return $pageData;
 }
