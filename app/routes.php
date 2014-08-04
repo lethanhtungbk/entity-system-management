@@ -29,6 +29,15 @@ Route::get('/', function() {
     return View::make('page.page-index', array('pageData' => $page));
 });
 
+Route::post('/restapi', function() {
+    $data = array(
+        'name' => 'Dummy',
+        'size' => 'XL',
+        'color' => 'Blue'
+    );
+    return Response::json($data);
+});
+
 function test() {
     $pageData = new PageData();
 
@@ -88,86 +97,66 @@ function test() {
 
     $pageData->body->dataTable = $dataTable;
 
-    //var_dump($pageData->body->dataTable->dataRows[0]);
-
     $formData = new FormData();
 
-    //$pageData->body->formData = $formData;
 
-    $multipleValues = array('1' => 'value 1', '2' => 'value 2', '3' => 'value 3', '4' => 'value 4');
+    $multipleValues = array('1' => 'Single value', '2' => 'Multiple values - Single select', '3' => 'Multiple values - Multiple select');
     $multipleSelected = array(1, 4);
 
     $field = new FormItemData();
-    $field->name = 'checkbox';
-    $field->value = $multipleValues;
-    $field->selected = $multipleSelected;
-    $field->desc = 'Checkbox Field';
-    $field->ui = 'form.items.checkbox';
+    $field->name = 'name';
+    $field->desc = 'Field Name';
+    $field->ui = 'form.items.textfield';
     $formData->addFormItem($field);
 
 
     $field = new FormItemData();
-    $field->name = 'dropdown';
+    $field->name = 'select_type';
     $field->value = $multipleValues;
-    $field->selected = 3;
-    $field->desc = 'Drop Field';
+    $field->desc = 'Field select type';
+    $field->ui = 'form.items.dropdown';
+    $field->id = 'select_type';
+
+    $formData->addFormItem($field);
+
+    $field = new FormItemData();
+    $field->name = 'field_display_type';
+    $field->value = $multipleValues;
+    $field->desc = 'Field display type';
+    $field->ui = 'form.items.dropdown';
+    $field->id = 'field_display_type';
+    $formData->addFormItem($field);
+
+    $field = new FormItemData();
+    $field->name = 'field_depend_type';
+    $field->value = array('1' => 'Independent', '2' => 'Depend on object(s)', '3' => 'Depend on other field(s)');
+    $field->desc = 'Field depend type';
     $field->ui = 'form.items.dropdown';
     $formData->addFormItem($field);
 
 
     $field = new FormItemData();
-    $field->name = 'hidden';
-    $field->value = 'hiddenValue';
-    $field->ui = 'form.items.hidden';
-    $formData->addFormItem($field);
-
-
-    $field = new FormItemData();
-    $field->name = 'list_single';
-    $field->value = $multipleValues;
-    $field->selected = 3;
-    $field->desc = 'List Single Field';
-    $field->ui = 'form.items.list';
-    $formData->addFormItem($field);
-
-
-    $field = new FormItemData();
-    $field->name = 'list_multiple';
-    $field->value = $multipleValues;
-    $field->selected = $multipleSelected;
-    $field->desc = 'List Multiple Field';
-    $field->ui = 'form.items.list';
-    $formData->addFormItem($field);
-
-
-    $field = new FormItemData();
-    $field->name = 'radio';
-    $field->value = $multipleValues;
-    $field->selected = 4;
-    $field->desc = 'List Multiple Field';
-    $field->ui = 'form.items.radio';
-    $formData->addFormItem($field);
-
-
-    $field = new FormItemData();
-    $field->name = 'textfield';
-    $field->value = "Select text field";
-    $field->desc = 'Textfield Field';
-    $field->ui = 'form.items.textfield';
+    $field->name = 'field_depend_type';
+    $field->value = array('1' => 'Independent', '2' => 'Depend on object(s)', '3' => 'Depend on other field(s)');
+    $field->desc = 'Field depend type';
+    $field->ui = 'form.items.dropdown';
     $formData->addFormItem($field);
 
     $field = new FormItemData();
-    $field->name = 'textarea';
-    $field->value = 'Select text area';
-    $field->desc = 'List Multiple Field';
-    $field->ui = 'form.items.textarea';
+    $field->name = 'field_value_type';
+    $field->value = array('1' => 'Self-Value', '2' => 'Object-Value', '3' => 'Field-Value');
+    $field->desc = 'Field depend type';
+    $field->ui = 'form.items.dropdown';
     $formData->addFormItem($field);
 
     $portletData = new PortletData();
     $portletData->title = 'Fields';
     $portletData->content = $formData;
-    
+
     $pageData->body->portletData = $portletData;
-    
+    $pageData->addScript("scripts/fields.js");
+
+    $pageData->addFunctionScript('var BASE = "' . URL::to('/restapi') . '";');
+
     return $pageData;
 }

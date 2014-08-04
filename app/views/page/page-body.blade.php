@@ -11,7 +11,6 @@
     @include('page.page-body-content')
     <!-- END CONTENT -->
     <!-- BEGIN QUICK SIDEBAR -->    
-    @include('page.page-body-quicksidebar')
     <!-- END QUICK SIDEBAR -->
 </div>
 <!-- END CONTAINER -->

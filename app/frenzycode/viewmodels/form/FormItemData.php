@@ -12,5 +12,6 @@ class FormItemData {
     public $inputStyle = 'col-md-5';
     public $showDesc = true;
     public $ui;
+    public $id;
 
 }

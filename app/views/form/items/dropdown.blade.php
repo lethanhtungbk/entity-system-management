@@ -3,7 +3,7 @@
     @include('form.items.form-description')
     <div class="{{$field->inputStyle}}">
         @if ($field->value != null && is_array($field->value))
-        <select class="form-control" name='{{$field->name}}'>
+        <select class="form-control" name='{{$field->name}}' id="{{$field->id}}">
         @foreach ($field->value as $key => $value)
             @if ($field->selected==$key)
                 <option value='{{$key}}' selected="true">{{$value}}</option>
