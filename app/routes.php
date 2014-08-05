@@ -23,6 +23,8 @@ use Frenzycode\ViewModels\Table\DataColumn;
 use Frenzycode\ViewModels\Form\FormData;
 use Frenzycode\ViewModels\Form\FormItemData;
 use Frenzycode\ViewModels\Portlet\PortletData;
+use Frenzycode\Libraries\InputHelper;
+use Frenzycode\Libraries\FrenzyHelper;
 
 Route::get('/', function() {
     $page = test();
@@ -30,10 +32,52 @@ Route::get('/', function() {
 });
 
 Route::post('/restapi', function() {
+
+    $displayDefind = array(
+        '1' => array(
+            '1' => 'Text Edit',
+            '2' => 'Text Area',
+            '3' => 'Date',
+            '4' => 'Image'
+        ),
+        '2' => array(
+            '5' => 'List',
+            '6' => 'Radio',
+        ),
+        '3' => array(
+            '7' => 'Dropdown',
+            '8' => 'Checkbox',
+        ),
+    );
+
+
+    $objectDefinded = array(
+        '1' => 'Student',
+        '2' => 'Class',
+        '3' => 'Mark'
+    );
+
+    $fieldDefinded = array(
+        '1' => 'District',
+        '2' => 'Square',
+    );
+
+    $input = Input::all();
+
+    $selectType = InputHelper::getInput('select_type', $input);
+
+    $field_display = FrenzyHelper::getValueFromArray($selectType, $displayDefind);
+
+    $assignType = InputHelper::getInput('assign_value_type', $input);
+
+    if ($assignType == 2)
+        $tmp = array('id' => 'field_object_value', 'data' => $objectDefinded);
+    if ($assignType == 3)
+        $tmp = array('id' => 'field_field_value', 'data' => $fieldDefinded);
+
+
     $data = array(
-        'name' => 'Dummy',
-        'size' => 'XL',
-        'color' => 'Blue'
+        'assignValue' => $tmp,
     );
     return Response::json($data);
 });
@@ -122,32 +166,74 @@ function test() {
     $field = new FormItemData();
     $field->name = 'field_display_type';
     $field->value = $multipleValues;
-    $field->desc = 'Field display type';
+    $field->desc = 'Field display as';
     $field->ui = 'form.items.dropdown';
     $field->id = 'field_display_type';
     $formData->addFormItem($field);
 
     $field = new FormItemData();
     $field->name = 'field_depend_type';
-    $field->value = array('1' => 'Independent', '2' => 'Depend on object(s)', '3' => 'Depend on other field(s)');
-    $field->desc = 'Field depend type';
-    $field->ui = 'form.items.dropdown';
-    $formData->addFormItem($field);
-
-
-    $field = new FormItemData();
-    $field->name = 'field_depend_type';
-    $field->value = array('1' => 'Independent', '2' => 'Depend on object(s)', '3' => 'Depend on other field(s)');
-    $field->desc = 'Field depend type';
-    $field->ui = 'form.items.dropdown';
+    $field->value = array('1' => 'None', '2' => 'Student', '3' => 'Class', '4' => 'Mark');
+    $field->selected = 1;
+    $field->desc = 'Depend on objects';
+    $field->ui = 'form.items.list';
     $formData->addFormItem($field);
 
     $field = new FormItemData();
     $field->name = 'field_value_type';
-    $field->value = array('1' => 'Self-Value', '2' => 'Object-Value', '3' => 'Field-Value');
-    $field->desc = 'Field depend type';
-    $field->ui = 'form.items.dropdown';
+    $field->value = array('1' => 'None', '2' => 'Country', '3' => 'District');
+    $field->selected = 1;
+    $field->desc = 'Depend on fields';
+    $field->ui = 'form.items.list';
     $formData->addFormItem($field);
+
+    $field = new FormItemData();
+    $field->name = 'field_value_type';
+    $field->value = array('1' => 'None', '2' => 'Country', '3' => 'District');
+    $field->selected = 1;
+    $field->desc = 'Depend on fields';
+    $field->ui = 'form.items.list';
+    $formData->addFormItem($field);
+
+
+
+    $field = new FormItemData();
+    $field->name = 'field_value_type';
+    $field->value = array('1' => 'Self-Value', '2' => 'Object-Value', '3' => 'Field-Value');
+    $field->selected = 1;
+    $field->desc = 'Assign value';
+    $field->ui = 'form.items.dropdown';
+    $field->id = 'assign_value_type';
+    $formData->addFormItem($field);
+
+
+    $field = new FormItemData();
+    $field->name = 'field_self_value';
+    $field->value = $multipleValues;
+    $field->desc = 'Assign itself';
+    $field->ui = 'form.items.dropdown';
+    $field->id = 'field_self_value';
+    $formData->addFormItem($field);
+
+    $field = new FormItemData();
+    $field->name = 'field_field_value';
+    $field->value = $multipleValues;
+    $field->desc = 'Assign to Object';
+    $field->ui = 'form.items.dropdown';
+    $field->id = 'field_field_value';
+    $formData->addFormItem($field);
+
+    $field = new FormItemData();
+    $field->name = 'field_object_value';
+    $field->value = $multipleValues;
+    $field->desc = 'Assign to field';
+    $field->ui = 'form.items.dropdown';
+    $field->id = 'field_object_value';
+    $formData->addFormItem($field);
+
+
+
+
 
     $portletData = new PortletData();
     $portletData->title = 'Fields';
