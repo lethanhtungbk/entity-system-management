@@ -34,6 +34,7 @@ Route::get('/', function() {
 Route::post('/restapi/getFieldDisplay','RestController@getFieldDisplay');
 Route::post('/restapi/getValueAssignType','RestController@getValueAssignType');
 
+
 function test() {
     $pageData = new PageData();
 
@@ -117,6 +118,7 @@ function test() {
 
     $field = new FormItemData();
     $field->name = 'field_display_type';
+
     $field->desc = 'Field display as';
     $field->ui = 'form.items.dropdown';
     $field->id = 'field_display_type';
@@ -160,6 +162,7 @@ function test() {
 
     $field = new FormItemData();
     $field->name = 'field_self_value';
+
     $field->desc = 'Assign itself';
     $field->ui = 'form.items.dropdown';
     $field->id = 'field_self_value';
@@ -167,6 +170,7 @@ function test() {
 
     $field = new FormItemData();
     $field->name = 'field_field_value';
+
     $field->desc = 'Assign to Object';
     $field->ui = 'form.items.dropdown';
     $field->id = 'field_field_value';
@@ -174,6 +178,7 @@ function test() {
 
     $field = new FormItemData();
     $field->name = 'field_object_value';
+
     $field->desc = 'Assign to field';
     $field->ui = 'form.items.dropdown';
     $field->id = 'field_object_value';
