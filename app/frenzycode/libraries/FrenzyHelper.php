@@ -6,7 +6,7 @@ use URL;
 
 class FrenzyHelper {
 
-    public static function getValueFromArray($index, $array, $default = null) {
+    public static function getValueFromArray($index, $array, $default = '') {
         if ($array == null || !is_array($array)) {
             return $default;
         }

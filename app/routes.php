@@ -23,20 +23,16 @@ use Frenzycode\ViewModels\Table\DataColumn;
 use Frenzycode\ViewModels\Form\FormData;
 use Frenzycode\ViewModels\Form\FormItemData;
 use Frenzycode\ViewModels\Portlet\PortletData;
+use Frenzycode\Libraries\InputHelper;
+use Frenzycode\Libraries\FrenzyHelper;
 
 Route::get('/', function() {
     $page = test();
     return View::make('page.page-index', array('pageData' => $page));
 });
 
-Route::post('/restapi', function() {
-    $data = array(
-        'name' => 'Dummy',
-        'size' => 'XL',
-        'color' => 'Blue'
-    );
-    return Response::json($data);
-});
+Route::post('/restapi/getFieldDisplay','RestController@getFieldDisplay');
+Route::post('/restapi/getValueAssignType','RestController@getValueAssignType');
 
 function test() {
     $pageData = new PageData();
@@ -71,8 +67,8 @@ function test() {
     $pageData->addStyle('assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css');
     $pageData->addScript('assets/global/plugins/datatables/media/js/jquery.dataTables.min.js');
     $pageData->addScript('assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js');
-    $pageData->addScript('assets/admin/pages/scripts/table-managed.js');
-    $pageData->addInitScript('TableManaged.init();');
+    //$pageData->addScript('assets/admin/pages/scripts/table-managed.js');
+    //$pageData->addInitScript('TableManaged.init();');
 
 
     $dataTable = new DataTable();
@@ -121,33 +117,71 @@ function test() {
 
     $field = new FormItemData();
     $field->name = 'field_display_type';
-    $field->value = $multipleValues;
-    $field->desc = 'Field display type';
+    $field->desc = 'Field display as';
     $field->ui = 'form.items.dropdown';
     $field->id = 'field_display_type';
     $formData->addFormItem($field);
 
     $field = new FormItemData();
     $field->name = 'field_depend_type';
-    $field->value = array('1' => 'Independent', '2' => 'Depend on object(s)', '3' => 'Depend on other field(s)');
-    $field->desc = 'Field depend type';
-    $field->ui = 'form.items.dropdown';
-    $formData->addFormItem($field);
-
-
-    $field = new FormItemData();
-    $field->name = 'field_depend_type';
-    $field->value = array('1' => 'Independent', '2' => 'Depend on object(s)', '3' => 'Depend on other field(s)');
-    $field->desc = 'Field depend type';
-    $field->ui = 'form.items.dropdown';
+    $field->value = array('1' => 'None', '2' => 'Student', '3' => 'Class', '4' => 'Mark');
+    $field->selected = 1;
+    $field->desc = 'Depend on objects';
+    $field->ui = 'form.items.list';
     $formData->addFormItem($field);
 
     $field = new FormItemData();
     $field->name = 'field_value_type';
-    $field->value = array('1' => 'Self-Value', '2' => 'Object-Value', '3' => 'Field-Value');
-    $field->desc = 'Field depend type';
-    $field->ui = 'form.items.dropdown';
+    $field->value = array('1' => 'None', '2' => 'Country', '3' => 'District');
+    $field->selected = 1;
+    $field->desc = 'Depend on fields';
+    $field->ui = 'form.items.list';
     $formData->addFormItem($field);
+
+    $field = new FormItemData();
+    $field->name = 'field_value_type';
+    $field->value = array('1' => 'None', '2' => 'Country', '3' => 'District');
+    $field->selected = 1;
+    $field->desc = 'Depend on fields';
+    $field->ui = 'form.items.list';
+    $formData->addFormItem($field);
+
+
+
+    $field = new FormItemData();
+    $field->name = 'field_value_type';
+    $field->value = array('1' => 'Self-Value', '2' => 'Object-Value', '3' => 'Field-Value');
+    $field->selected = 1;
+    $field->desc = 'Assign value';
+    $field->ui = 'form.items.dropdown';
+    $field->id = 'assign_value_type';
+    $formData->addFormItem($field);
+
+
+    $field = new FormItemData();
+    $field->name = 'field_self_value';
+    $field->desc = 'Assign itself';
+    $field->ui = 'form.items.dropdown';
+    $field->id = 'field_self_value';
+    $formData->addFormItem($field);
+
+    $field = new FormItemData();
+    $field->name = 'field_field_value';
+    $field->desc = 'Assign to Object';
+    $field->ui = 'form.items.dropdown';
+    $field->id = 'field_field_value';
+    $formData->addFormItem($field);
+
+    $field = new FormItemData();
+    $field->name = 'field_object_value';
+    $field->desc = 'Assign to field';
+    $field->ui = 'form.items.dropdown';
+    $field->id = 'field_object_value';
+    $formData->addFormItem($field);
+
+
+
+
 
     $portletData = new PortletData();
     $portletData->title = 'Fields';
@@ -157,6 +191,11 @@ function test() {
     $pageData->addScript("scripts/fields.js");
 
     $pageData->addFunctionScript('var BASE = "' . URL::to('/restapi') . '";');
-
+    
+    $pageData->addStyle('assets/customs/bootstrap-tokenfield/css/bootstrap-tokenfield.css');
+    $pageData->addStyle('assets/customs/bootstrap-tokenfield/css/tokenfield-typeahead.css');
+    
+    $pageData->addScript('assets/customs/bootstrap-tokenfield/bootstrap-tokenfield.js');
+    
     return $pageData;
 }

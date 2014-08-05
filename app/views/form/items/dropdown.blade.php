@@ -2,17 +2,17 @@
 <div class="form-group">
     @include('form.items.form-description')
     <div class="{{$field->inputStyle}}">
-        @if ($field->value != null && is_array($field->value))
         <select class="form-control" name='{{$field->name}}' id="{{$field->id}}">
-        @foreach ($field->value as $key => $value)
+            @if ($field->value != null && is_array($field->value))
+            @foreach ($field->value as $key => $value)
             @if ($field->selected==$key)
-                <option value='{{$key}}' selected="true">{{$value}}</option>
+            <option value='{{$key}}' selected="true">{{$value}}</option>
             @else
-                <option value='{{$key}}'>{{$value}}</option>
+            <option value='{{$key}}'>{{$value}}</option>
             @endif
-        @endforeach
-        </select>        
-        @endif
+            @endforeach
+            @endif        
+        </select>                
     </div>
 </div>
 @endif
