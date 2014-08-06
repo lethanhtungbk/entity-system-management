@@ -7,8 +7,24 @@ $(document).ready(function() {
 
     $('#select_type').change(function(e) {
         e.preventDefault();
+        var selectType = $('#select_type').val();
+        if (selectType == 2 || selectType == 3)
+        {
+            if ($('#assign_value_type').val() == 1)
+            {
+                $('#field_self_value').closest("div.form-group").css('display', '');
+            }            
+            else
+            {
+                $('#field_self_value').closest("div.form-group").css('display', 'none');
+            }
+        }
+        else
+        {
+            $('#field_self_value').closest("div.form-group").css('display', 'none');
+        }
         $.post(BASE + "/getFieldDisplay", {
-            "select_type": $('#select_type').val()
+            "select_type": selectType
         }, function(data) {
             var field_display_type = $('#field_display_type');
             field_display_type.empty();
@@ -35,7 +51,14 @@ $(document).ready(function() {
                 break;
             default:
                 $('#field_object_value').closest("div.form-group").css('display', 'none');
-                $('#field_self_value').closest("div.form-group").css('display', '');
+                if ($('#select_type').val() != 1)
+                {
+                    $('#field_self_value').closest("div.form-group").css('display', '');
+                }
+                else
+                {
+                    $('#field_self_value').closest("div.form-group").css('display', 'none');
+                }
                 $('#field_field_value').closest("div.form-group").css('display', 'none');
                 break;
 
@@ -63,24 +86,18 @@ $(document).ready(function() {
     $('#field_value_type').trigger('change');
 
 
-    $('#tokenfield-2-tokenfield')
-
-            .on('tokenfield:createtoken', function(e) {
-                var data = e.attrs.value.split('|')
-                e.attrs.value = data[1] || data[0]
-                e.attrs.label = data[1] ? data[0] + ' (' + data[1] + ')' : data[0]
-            })
-
-
-
-            .on('tokenfield:edittoken', function(e) {
-                if (e.attrs.label !== e.attrs.value) {
-                    var label = e.attrs.label.split(' (')
-                    e.attrs.value = label[0] + '|' + e.attrs.value
-                }
-            })
-
+    $('.token-input')
+        .on('tokenfield:createdtoken', function(e) {
+            alert($('.token-input').tokenfield('getTokensList'));
             
-
-            .tokenfield()
+        })
+        .on('tokenfield:editedtoken', function(e) {
+            alert($('.token-input').tokenfield('getTokensList'));
+            
+        })
+        .on('tokenfield:removedtoken', function(e) {
+            alert($('.token-input').tokenfield('getTokensList'));
+            
+        })
+        .tokenfield();
 });

@@ -10,10 +10,10 @@ class Button {
     public $style;
     
     function __construct($array) {
-        $this->title = FrenzyHelper::getValueFromArray('title', $array,'');
-        $this->icon = FrenzyHelper::getValueFromArray('icon', $array,'');
-        $this->link = FrenzyHelper::getValueFromArray('link', $array,'');
-        $this->style = FrenzyHelper::getValueFromArray('style', $array,'');
+        $this->title = FrenzyHelper::getValueFromArray('title', $array);
+        $this->icon = FrenzyHelper::getValueFromArray('icon', $array);
+        $this->link = FrenzyHelper::getValueFromArray('link', $array);
+        $this->style = FrenzyHelper::getValueFromArray('style', $array);
     }
             
 }

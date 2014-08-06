@@ -5,10 +5,16 @@ class FormData {
     public $class = 'form-horizontal';
     public $method = 'post';
     public $formItems = array();
-    
+    public $actionClass = 'right';
+    public $buttons = array();
     
     public function addFormItem($formItem)
     {
         array_push($this->formItems, $formItem);
+    }
+    
+    public function addFormButton($button)
+    {
+        array_push($this->buttons,$button);
     }
 }

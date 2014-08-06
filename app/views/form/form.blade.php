@@ -3,17 +3,13 @@
 <div class="form-body">
     @foreach ($formData->formItems as $field)
     @include($field->ui,array('field' => $field))
-    @endforeach   
-
-    <div class="form-group">
-        <label class="control-label col-md-4">Test token</label>
-        <div class="col-md-5">        
-            <input type="text" class="token-input" autocomplete="off" id="tokenfield-2-tokenfield" >
-        </div>
-    </div>
+    @endforeach       
 </div>
-<div class="form-actions fluid">
-
+<div class="form-actions {{$formData->actionClass}}">
+    
+    @foreach ($formData->buttons as $button)
+    @include('components.button',array('button' => $button))
+    @endforeach
 </div>
 {{Form::close()}}
 @endif

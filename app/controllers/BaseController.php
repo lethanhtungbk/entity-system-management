@@ -1,18 +1,23 @@
 <?php
 
-class BaseController extends Controller {
+use Frenzycode\Libraries\PageManager;
 
-	/**
-	 * Setup the layout used by the controller.
-	 *
-	 * @return void
-	 */
-	protected function setupLayout()
-	{
-		if ( ! is_null($this->layout))
-		{
-			$this->layout = View::make($this->layout);
-		}
-	}
+class BaseController extends Controller {
+    protected $pageManager;
+    
+    function __construct() {
+        $this->pageManager = new PageManager();
+    }
+    
+    /**
+     * Setup the layout used by the controller.
+     *
+     * @return void
+     */
+    protected function setupLayout() {
+        if (!is_null($this->layout)) {
+            $this->layout = View::make($this->layout);
+        }
+    }
 
 }

@@ -23,17 +23,23 @@ use Frenzycode\ViewModels\Table\DataColumn;
 use Frenzycode\ViewModels\Form\FormData;
 use Frenzycode\ViewModels\Form\FormItemData;
 use Frenzycode\ViewModels\Portlet\PortletData;
-use Frenzycode\Libraries\InputHelper;
-use Frenzycode\Libraries\FrenzyHelper;
+
 
 Route::get('/', function() {
     $page = test();
     return View::make('page.page-index', array('pageData' => $page));
 });
 
+Route::post('/test1',function(){
+    var_dump(Input::all());
+});
+
 Route::post('/restapi/getFieldDisplay','RestController@getFieldDisplay');
 Route::post('/restapi/getValueAssignType','RestController@getValueAssignType');
 
+
+Route::get('/groups','GroupController@getGroups');
+Route::get('/fields','FieldController@getFields');
 
 function test() {
     $pageData = new PageData();
@@ -95,6 +101,8 @@ function test() {
     $pageData->body->dataTable = $dataTable;
 
     $formData = new FormData();
+    
+    $formData->url = "/test1";
 
 
     $multipleValues = array('1' => 'Single value', '2' => 'Multiple values - Single select', '3' => 'Multiple values - Multiple select');
@@ -164,7 +172,7 @@ function test() {
     $field->name = 'field_self_value';
 
     $field->desc = 'Assign itself';
-    $field->ui = 'form.items.dropdown';
+    $field->ui = 'form.items.token-random';
     $field->id = 'field_self_value';
     $formData->addFormItem($field);
 
@@ -186,7 +194,7 @@ function test() {
 
 
 
-
+    $formData->addFormButton(new Button(array('title' => 'Cancel','style' => 'blue','link'=>'/test')));
 
     $portletData = new PortletData();
     $portletData->title = 'Fields';
