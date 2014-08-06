@@ -1,7 +1,13 @@
 <?php
-
 namespace Frenzycode\ViewModels\Table;
-class DataTable {
+use Frenzycode\ViewModels\BaseViewModel;
+class DataTable extends BaseViewModel {
+    protected $layout = 'table.table-content';
+    protected $parameter = 'dataTable';
+
+
+
+
     public $checkAllMode = true;
     public $id;
     
@@ -20,4 +26,6 @@ class DataTable {
         array_push($this->dataRows,$dataRow);
         return $dataRow;
     }
+    
+    
 }

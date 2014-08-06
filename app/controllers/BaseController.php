@@ -7,6 +7,7 @@ class BaseController extends Controller {
     
     function __construct() {
         $this->pageManager = new PageManager();
+        
     }
     
     /**

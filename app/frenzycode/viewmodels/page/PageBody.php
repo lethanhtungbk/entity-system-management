@@ -11,6 +11,7 @@ class PageBody {
     public $formData;
     public $portletData;
     
+    public $contents = array();
     public function addMenuItem($menuItem)
     {
         array_push($this->menus, $menuItem);
@@ -20,5 +21,10 @@ class PageBody {
     public function addBreadcrumbItem($breadcrumbItem)
     {
         array_push($this->breadcrumbs,$breadcrumbItem);
+    }
+    
+    public function addContent($content)
+    {
+        array_push($this->contents,$content);
     }
 }

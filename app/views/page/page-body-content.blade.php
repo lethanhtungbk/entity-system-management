@@ -25,6 +25,11 @@
         </div>
         <!-- END PAGE HEADER-->
         <!-- BEGIN PAGE CONTENT-->
+        @foreach ($pageBody->contents as $content)
+        {{$content->getView()}}        
+        @endforeach
+        
+        
         @include('components.button-bar',array('buttonBar' => $pageBody->buttonBar))
         
         <div class="row">

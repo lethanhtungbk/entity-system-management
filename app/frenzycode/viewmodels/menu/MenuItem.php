@@ -22,6 +22,7 @@ class MenuItem {
     public function addMenuItem($menuItem) {
         array_push($this->children, $menuItem);
         $menuItem->parent = $this;
+        return $menuItem;
     }
 
     public function setActive($isActive) {
