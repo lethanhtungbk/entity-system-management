@@ -6,7 +6,7 @@
     @endforeach       
 </div>
 <div class="form-actions {{$formData->actionClass}}">
-    
+    <button type="submit" class="btn blue">Submit</button>
     @foreach ($formData->buttons as $button)
     @include('components.button',array('button' => $button))
     @endforeach

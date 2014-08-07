@@ -1,10 +1,10 @@
 <?php
 namespace Frenzycode\Models;
-class Groups {
-    //Test Prototype
-    public static function all()
-    {
-        return array('1' => 'Student','2' => 'Class','3' => 'Subject','4' => 'Mark');
-    }
+use Eloquent;
+class Groups extends Eloquent{
+    protected $table = 'groups';
+    public static $rules = array(
+        'name' => 'required|min:3|unique:groups,name'
+    );   
             
 }

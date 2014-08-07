@@ -2,9 +2,6 @@
 namespace Frenzycode\ViewModels\Button;
 use Frenzycode\ViewModels\BaseViewModel;
 class ButtonBar extends BaseViewModel {
-    protected $layout = "components.button-bar";
-    protected $parameter = "buttonBar";
-    
     public $leftButtons = array();
     public $rightButtons = array();
     

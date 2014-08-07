@@ -54,7 +54,14 @@ class EMS extends Seeder {
         );
         
         
-        
+        DB::table('groups')->insert(
+                array(                    
+                    array('id' => 1, 'name' => 'Student'),
+                    array('id' => 2, 'name' => 'Class'),
+                    array('id' => 3, 'name' => 'Subject'),
+                    array('id' => 4, 'name' => 'Mark'),                    
+                )
+        );
 
     }
 

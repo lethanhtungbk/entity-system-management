@@ -3,6 +3,7 @@
 use Frenzycode\Libraries\PageManager;
 
 class BaseController extends Controller {
+    protected $messages = array();
     protected $pageManager;
     
     function __construct() {

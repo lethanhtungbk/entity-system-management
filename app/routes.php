@@ -39,7 +39,11 @@ Route::post('/restapi/getValueAssignType','RestController@getValueAssignType');
 
 
 Route::get('/groups','GroupController@getGroups');
+Route::get('/groups/add','GroupController@addGroup');
+Route::get('/groups/edit/{id}','GroupController@editGroup');
 Route::get('/fields','FieldController@getFields');
+
+Route::post('/groups/save','GroupController@saveGroup');
 
 function test() {
     $pageData = new PageData();

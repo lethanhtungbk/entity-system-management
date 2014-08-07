@@ -1,6 +1,7 @@
 <?php
 namespace Frenzycode\ViewModels\Portlet;
-class PortletData {
+use Frenzycode\ViewModels\BaseViewModel;
+class PortletData extends BaseViewModel {
     public $title;
     public $style = 'blue';
     public $icon;

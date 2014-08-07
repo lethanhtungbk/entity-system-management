@@ -1,11 +1,19 @@
 <?php
+
 namespace Frenzycode\ViewModels;
+use Frenzycode\ViewModels\ViewModelConfig;
 use View;
+
 class BaseViewModel {
-    protected $layout;
-    protected $parameter;
-    public function getView()
-    {
-        return View::make($this->layout,array($this->parameter => $this));
+
+    public function getView() {
+        $class = get_class($this);
+
+        if (array_key_exists($class, ViewModelConfig::$viewModalMap)) {
+            return View::make(ViewModelConfig::$viewModalMap[$class]['view'], array(ViewModelConfig::$viewModalMap[$class]['model'] => $this));
+        } else {
+            return "Not found mapping";
+        }
     }
+
 }

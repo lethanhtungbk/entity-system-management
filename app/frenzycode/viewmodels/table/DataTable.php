@@ -2,12 +2,6 @@
 namespace Frenzycode\ViewModels\Table;
 use Frenzycode\ViewModels\BaseViewModel;
 class DataTable extends BaseViewModel {
-    protected $layout = 'table.table-content';
-    protected $parameter = 'dataTable';
-
-
-
-
     public $checkAllMode = true;
     public $id;
     
