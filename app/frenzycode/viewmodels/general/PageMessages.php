@@ -1,9 +1,9 @@
 <?php
 
-namespace Frenzycode\ViewModels;
-use Frenzycode\ViewModels\ViewModelConfig;
+namespace Frenzycode\ViewModels\General;
+use Frenzycode\ViewModels\BaseViewModel;
 
-class PageMessages extends ViewModelConfig {
+class PageMessages extends BaseViewModel {
     public $messages = array();
     public function addMessage($message)
     {

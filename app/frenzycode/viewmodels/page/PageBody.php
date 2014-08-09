@@ -25,6 +25,9 @@ class PageBody {
     
     public function addContent($content)
     {
-        array_push($this->contents,$content);
+        if ($content != null)
+        {
+            array_push($this->contents,$content);
+        }
     }
 }
