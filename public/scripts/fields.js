@@ -1,16 +1,16 @@
 $(document).ready(function() {
-
+    
     $('#field_object_value').closest("div.form-group").css('display', 'none');
     $('#field_self_value').closest("div.form-group").css('display', 'none');
     $('#field_field_value').closest("div.form-group").css('display', 'none');
 
 
-    $('#select_type').change(function(e) {
+    $('#value_type').change(function(e) {
         e.preventDefault();
-        var selectType = $('#select_type').val();
+        var selectType = $('#value_type').val();
         if (selectType == 2 || selectType == 3)
         {
-            if ($('#assign_value_type').val() == 1)
+            if ($('#assign_type').val() == 1)
             {
                 $('#field_self_value').closest("div.form-group").css('display', '');
             }            
@@ -24,19 +24,19 @@ $(document).ready(function() {
             $('#field_self_value').closest("div.form-group").css('display', 'none');
         }
         $.post(BASE + "/getFieldDisplay", {
-            "select_type": selectType
+            "value_type": selectType
         }, function(data) {
-            var field_display_type = $('#field_display_type');
-            field_display_type.empty();
-            $.each(data.field_displays, function(key, value) {
-                $('<option>').val(key).text(value).appendTo(field_display_type);
+            var display_type = $('#display_type');
+            display_type.empty();
+            $.each(data.display_types, function(key, value) {
+                $('<option>').val(key).text(value).appendTo(display_type);
             });
         });
     });
 
 
-    $('#assign_value_type').change(function(e) {
-        var assign_type = $('#assign_value_type').val();
+    $('#assign_type').change(function(e) {
+        var assign_type = $('#assign_type').val();
         switch (assign_type)
         {
             case "2":
@@ -51,7 +51,7 @@ $(document).ready(function() {
                 break;
             default:
                 $('#field_object_value').closest("div.form-group").css('display', 'none');
-                if ($('#select_type').val() != 1)
+                if ($('#value_type').val() != 1)
                 {
                     $('#field_self_value').closest("div.form-group").css('display', '');
                 }
@@ -65,7 +65,7 @@ $(document).ready(function() {
         }
 
         $.post(BASE + "/getValueAssignType", {
-            "value_assign_type": $('#assign_value_type').val()
+            "value_assign_type": $('#assign_type').val()
         }, function(data) {
             if (data.assignValue != "")
             {
@@ -82,8 +82,8 @@ $(document).ready(function() {
         });
     });
 
-    $('#select_type').trigger('change');
-    $('#field_value_type').trigger('change');
+    $('#value_type').trigger('change');
+    $('#assign_type').trigger('change');
 
 
     $('.token-input')

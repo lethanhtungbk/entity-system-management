@@ -10,7 +10,7 @@ class Groups extends Eloquent {
     public static $rules = array(
         'name' => 'required|min:3|unique:groups,name'
     );
-    protected $fillable = array('name');
+    protected $fillable = array('name,fields');
     public $timestamps = false;
 
 }

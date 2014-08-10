@@ -40,6 +40,7 @@ class GroupPage extends PageData {
 
         $this->dataTable = new DataTable();
         $this->dataTable->addHeadColoumn(new HeadColumn((array('title' => 'Name'))));
+        $this->dataTable->addHeadColoumn(new HeadColumn((array('title' => 'Fields'))));
         $this->dataTable->addHeadColoumn(new HeadColumn((array('title' => ''))));
 
 
@@ -47,14 +48,14 @@ class GroupPage extends PageData {
             $dataRow = $this->dataTable->addDataRow(new DataRow());
             $tableButton = new ButtonBar();
             $tableButton->addLeftButton(new Button(array('title' => 'Edit', 'style' => 'blue', 'icon' => 'fa-plus', 'link' => '/groups/edit/' . $group->id)));
-            $tableButton->addLeftButton(new Button(array('title' => 'Fields', 'style' => 'blue', 'icon' => 'fa-trash', 'link' => '/groups/remove/' . $group->id)));
             $tableButton->addLeftButton(new Button(array('title' => 'Remove', 'style' => 'blue', 'icon' => 'fa-trash', 'link' => '/groups/remove/' . $group->id)));
             $dataRow->addDataColumn(new DataColumn(array('data' => $group->name)));
-            $dataRow->addDataColumn(new DataColumn(array('data' => $tableButton, 'style' => 'width="18%"'), DataColumn::TYPE_BUTTON));
+            $dataRow->addDataColumn(new DataColumn(array('data' => $group->fields_name)));
+            $dataRow->addDataColumn(new DataColumn(array('data' => $tableButton, 'style' => 'width="15%"'), DataColumn::TYPE_BUTTON));
         }
     }
 
-    public function setDetailMode($group = null,$input = null) {
+    public function setDetailMode($group = null,$input = null,$fields = null) {
         $this->isListMode = false;
 
         $title = ($group == null) ? 'Add new group' : $group->name;
@@ -89,7 +90,31 @@ class GroupPage extends PageData {
             $field->value = InputHelper::getInput('name',$input);
         }
         
+        
+        
         $formData->addFormItem($field);
+        
+        $field = new FormItemData();
+        $field->name = 'fields[]';
+        $field->desc = 'Assign fields';
+        $field->ui = 'form.items.checkbox';
+        $field->value = $fields;
+        if ($group != null && $group->fields != '')
+        {
+            $field->selected = explode(InputHelper::DELIMITER,$group->fields);
+        }
+        
+        $formData->addFormItem($field);
+        
+        if ($group != null)
+        {
+            $field = new FormItemData();
+            $field->name = 'id';
+            $field->ui = 'form.items.hidden';
+            $field->value = $group->id;
+            $formData->addFormItem($field);
+        }
+        
         $formData->addFormButton(new Button(array('title' => 'Cancel', 'style' => 'blue', 'link' => '/groups')));
         $this->portletData->content = $formData;
 
