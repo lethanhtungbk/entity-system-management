@@ -84,20 +84,4 @@ $(document).ready(function() {
 
     $('#value_type').trigger('change');
     $('#assign_type').trigger('change');
-
-
-    $('.token-input')
-        .on('tokenfield:createdtoken', function(e) {
-            alert($('.token-input').tokenfield('getTokensList'));
-            
-        })
-        .on('tokenfield:editedtoken', function(e) {
-            alert($('.token-input').tokenfield('getTokensList'));
-            
-        })
-        .on('tokenfield:removedtoken', function(e) {
-            alert($('.token-input').tokenfield('getTokensList'));
-            
-        })
-        .tokenfield();
 });

@@ -1,6 +1,7 @@
 <?php
 
 namespace Frenzycode\ViewModels\Form;
+use Frenzycode\Libraries\InputHelper;
 
 class FormItemData {
 
@@ -14,5 +15,12 @@ class FormItemData {
     public $ui;
     public $id;
     
-    
+    function __construct($array = null) {
+        $this->desc = InputHelper::getInput('desc', $array);
+        $this->name = InputHelper::getInput('name', $array);
+        $this->value = InputHelper::getInput('value', $array);
+        $this->selected = InputHelper::getInput('selected', $array);
+        $this->ui = InputHelper::getInput('ui', $array);
+        $this->id = InputHelper::getInput('id', $array);
+    }
 }

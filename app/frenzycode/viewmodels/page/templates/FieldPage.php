@@ -76,10 +76,7 @@ class FieldPage extends PageData {
         $formData->url = ($field == null) ? "fields/save" : "fields/update";
 
 
-        $fieldItem = new FormItemData();
-        $fieldItem->name = 'name';
-        $fieldItem->desc = 'Field Name';
-        $fieldItem->ui = 'form.items.textfield';
+        $fieldItem =  $formData->addFormItem(new FormItemData(array('desc' => 'Field name','name' => 'name','ui'=>'form.items.textfield')));
         if ($field != null) {
             $fieldItem->value = $field->name;
         }
@@ -88,81 +85,23 @@ class FieldPage extends PageData {
             $fieldItem->value = InputHelper::getInput('name', $input);
         }
 
-        $formData->addFormItem($fieldItem);
+        $formData->addFormItem(new FormItemData(array('desc' => 'Value type','name' => 'value_type','ui'=>'form.items.dropdown','value' =>Fields::$valueType,'id'=>'value_type')));
+        $formData->addFormItem(new FormItemData(array('desc' => 'Display','name' => 'display_type','ui'=>'form.items.dropdown','id'=>'display_type')));
+        $formData->addFormItem(new FormItemData(array('desc' => 'Depend on objects','name' => 'depend_on_objects[]','ui'=>'form.items.list','value'=>$groups)));
+        $formData->addFormItem(new FormItemData(array('desc' => 'Depend on fields','name' => 'depend_on_fields[]','ui'=>'form.items.list','value'=>Fields::lists('name','id'))));
+        $formData->addFormItem(new FormItemData(array('desc' => 'Assign value','name' => 'assign_type','ui'=>'form.items.dropdown','value'=>Fields::$assignType,'id'=>'assign_type','selected'=>'1')));
 
-        $fieldItem = new FormItemData();
-        $fieldItem->name = 'value_type';
-        $fieldItem->desc = "Value type";
-        $fieldItem->ui = 'form.items.dropdown';
-        $fieldItem->value = Fields::$valueType;
-        $fieldItem->id = $fieldItem->name;
-        $formData->addFormItem($fieldItem);
-
-
-        $fieldItem = new FormItemData();
-        $fieldItem->name = 'display_type';
-        $fieldItem->desc = 'Display';
-        $fieldItem->ui = 'form.items.dropdown';
-        $fieldItem->id = $fieldItem->name;
-        $formData->addFormItem($fieldItem);
-
-
-        $fieldItem = new FormItemData();
-        $fieldItem->name = 'depend_on_objects[]';
-        $fieldItem->value = $groups;
-        $fieldItem->desc = 'Depend on objects';
-        $fieldItem->ui = 'form.items.list';
-        $formData->addFormItem($fieldItem);
-
-        $fieldItem = new FormItemData();
-        $fieldItem->name = 'depend_on_fields[]';
-        $fieldItem->value = Fields::lists('name','id');
-        $fieldItem->desc = 'Depend on fields';
-        $fieldItem->ui = 'form.items.list';
-        $formData->addFormItem($fieldItem);
-
-        $fieldItem = new FormItemData();
-        $fieldItem->name = 'assign_type';
-        $fieldItem->value = Fields::$assignType;
-        $fieldItem->selected = 1;
-        $fieldItem->desc = 'Assign value';
-        $fieldItem->ui = 'form.items.dropdown';
-        $fieldItem->id = $fieldItem->name;
-        $formData->addFormItem($fieldItem);
-
-
-        $fieldItem = new FormItemData();
-        $fieldItem->name = 'field_self_value';
-        $fieldItem->desc = 'Assign itself';
-        $fieldItem->ui = 'form.items.token-random';
-        $fieldItem->id = 'field_self_value';
-        $formData->addFormItem($fieldItem);
-
-        $fieldItem = new FormItemData();
-        $fieldItem->name = 'field_field_value';
-        $fieldItem->desc = 'Assign to Object';
-        $fieldItem->ui = 'form.items.dropdown';
-        $fieldItem->id = 'field_field_value';
-        $formData->addFormItem($fieldItem);
-
-        $fieldItem = new FormItemData();
-        $fieldItem->name = 'field_object_value';
-
-        $fieldItem->desc = 'Assign to field';
-        $fieldItem->ui = 'form.items.dropdown';
-        $fieldItem->id = 'field_object_value';
-        $formData->addFormItem($fieldItem);
+        $formData->addFormItem(new FormItemData(array('desc' => 'Assign itself','name' => 'field_self_value','ui'=>'form.items.custom-value','id'=>'field_self_value')));
+        $formData->addFormItem(new FormItemData(array('desc' => 'Assign to Object','name' => 'field_field_value','ui'=>'form.items.dropdown','id'=>'field_field_value')));
+        $formData->addFormItem(new FormItemData(array('desc' => 'Assign to field','name' => 'field_object_value','ui'=>'form.items.dropdown','id'=>'field_object_value')));
 
 
         $formData->addFormButton(new Button(array('title' => 'Cancel', 'style' => 'blue', 'link' => '/fields')));
         $this->portletData->content = $formData;
-
-        $this->addScript("scripts/fields.js");
-
+        
+        $this->addScript('scripts/fields.js');
+        $this->addScript('scripts/custom-value.js');
         $this->addFunctionScript('var BASE = "' . URL::to('/restapi') . '";');
-        $this->addStyle('assets/customs/bootstrap-tokenfield/css/bootstrap-tokenfield.css');
-        $this->addStyle('assets/customs/bootstrap-tokenfield/css/tokenfield-typeahead.css');
-        $this->addScript('assets/customs/bootstrap-tokenfield/bootstrap-tokenfield.js');
     }
 
     public function addPageMessage($message) {
