@@ -197,6 +197,14 @@ function test() {
     $formData->addFormItem($field);
 
 
+    
+    $field = new FormItemData();
+    
+
+    $field->desc = 'Dump';
+    $field->name = 'custom-value';
+    $field->ui = 'form.items.custom-value';
+    $formData->addFormItem($field);
 
     $formData->addFormButton(new Button(array('title' => 'Cancel','style' => 'blue','link'=>'/test')));
 
@@ -205,14 +213,15 @@ function test() {
     $portletData->content = $formData;
 
     $pageData->body->portletData = $portletData;
-    $pageData->addScript("scripts/fields.js");
-
-    $pageData->addFunctionScript('var BASE = "' . URL::to('/restapi') . '";');
+//    $pageData->addScript("scripts/fields.js");
+//
+//    $pageData->addFunctionScript('var BASE = "' . URL::to('/restapi') . '";');
     
-    $pageData->addStyle('assets/customs/bootstrap-tokenfield/css/bootstrap-tokenfield.css');
-    $pageData->addStyle('assets/customs/bootstrap-tokenfield/css/tokenfield-typeahead.css');
-    
-    $pageData->addScript('assets/customs/bootstrap-tokenfield/bootstrap-tokenfield.js');
+//    $pageData->addStyle('assets/customs/bootstrap-tokenfield/css/bootstrap-tokenfield.css');
+//    $pageData->addStyle('assets/customs/bootstrap-tokenfield/css/tokenfield-typeahead.css');
+//    
+//    $pageData->addScript('assets/customs/bootstrap-tokenfield/bootstrap-tokenfield.js');
+    $pageData->addScript('scripts/custom-value.js');
     
     return $pageData;
 }
