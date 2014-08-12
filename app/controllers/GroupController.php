@@ -1,13 +1,38 @@
 <?php
 
 use Frenzycode\Models\Groups;
+use Frenzycode\Models\Fields;
 use Frenzycode\ViewModels\Page\Templates\GroupPage;
 use Frenzycode\Libraries\InputHelper;
+
 class GroupController extends BaseController {
 
     public function getGroups() {
         $groups = Groups::all();
+        
+        $fields = Fields::lists('name','id');
+        
+        
+        foreach ($groups as $group)
+        {
+            $groupFields = explode(InputHelper::DELIMITER,$group->fields);
+            $groupFieldNames = array();
+            foreach ($groupFields as $groupField)
+            {
+                if (array_key_exists($groupField, $fields))
+                {
+                    array_push($groupFieldNames, $fields[$groupField]);
+                }
+                else
+                {
+                    array_push($groupFieldNames, "undefiend");
+                }
+            }
+            $group->fields_name = implode(' , ', $groupFieldNames);
+        }
+        
         $groupPage = new GroupPage();
+        $this->configPage($groupPage);
         $groupPage->setListMode($groups);
         $success = Session::get('success');
         if ($success != null) {
@@ -22,7 +47,7 @@ class GroupController extends BaseController {
 
     public function addGroup() {
         $groupPage = new GroupPage();
-        $groupPage->setDetailMode(null, Session::get('input'));
+        $groupPage->setDetailMode(null, Session::get('input'), Fields::lists('name', 'id'));
         $messages = Session::get('messages');
         if ($messages != null) {
             foreach ($messages as $message) {
@@ -38,7 +63,7 @@ class GroupController extends BaseController {
             return Redirect::to('/groups')->with('error', 'Group cannot be found.');
         } else {
             $groupPage = new GroupPage();
-            $groupPage->setDetailMode($group, Session::get('input'));
+            $groupPage->setDetailMode($group, Session::get('input'), Fields::lists('name', 'id'));
             $messages = Session::get('messages');
             if ($messages != null) {
                 foreach ($messages as $message) {
@@ -58,9 +83,42 @@ class GroupController extends BaseController {
             return Redirect::to('/groups/add')->with('input', $input)->with('messages', $v->errors()->all());
         } else {
             $group = new Groups();
-            $group->name = $groupName;
-            $group->save();
+            $this->saveGroup($group,$input);
             return Redirect::to('/groups')->with('success', 'Group <b>added</b>. Please edit group to assign fields to group.');
+        }
+    }
+
+    private function saveGroupToDB(&$group,$input) {
+        $group->name = InputHelper::getInput('name', $input);
+        $fields = InputHelper::getInput('fields', $input, array());
+        if (count($fields) > 0) {
+            $group->fields = implode(InputHelper::DELIMITER, $fields);
+        }
+        $group->save();
+    }
+
+    public function updateGroup() {
+        $input = Input::all();
+        $id = InputHelper::getInput('id', $input, '');
+
+        $group = Groups::find($id);
+        if ($group == null) {
+            return Redirect::to('/groups')->with('error', 'Group cannot be found.');
+        } else {
+            $groupName = InputHelper::getInput('name', $input);
+            $v = Validator::make($input, Groups::$rules);
+
+            if ($groupName == $group->name) {
+                $this->saveGroupToDB($group,$input);
+                return Redirect::to('/groups')->with('success', 'Group <b>updated</b>!');
+            } else {
+                if ($v->passes()) {
+                    $this->saveGroupToDB($group,$input);
+                    return Redirect::to('/groups')->with('success', 'Group <b>updated</b>!');
+                } else {
+                    return Redirect::to('/groups/edit/' . $id)->with('input', $input)->with('messages', $v->errors()->all());
+                }
+            }
         }
     }
 

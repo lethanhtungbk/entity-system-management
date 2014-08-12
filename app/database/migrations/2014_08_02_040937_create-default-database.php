@@ -13,37 +13,34 @@ class CreateDefaultDatabase extends Migration {
     public function up() {
         Schema::create('field_types', function($table) {
             $table->increments('id');
-            $table->string('name', 100);
-            $table->string('display');
+            $table->string('name');
             $table->integer('value_type')->default(1);
+            $table->string('display');
         });
-        
         
         Schema::create('fields', function($table) {
             $table->increments('id');
-            $table->string('name', 100);
-            $table->integer('field_type_id');
-            $table->string('object_dependences');
-            $table->string('field_dependences');
-            $table->string('value_in_object');
-            $table->string('value_in_field');
-            
-        });    
-        
+            $table->string('name');
+            $table->integer('value_type')->default(1);
+            $table->integer('display_type')->default(1);
+            $table->string('depend_on_objects');
+            $table->string('depend_on_fields');
+            $table->integer('assign_type')->default(1);            
+        });
         
         
         Schema::create('field_values', function($table) {
             $table->increments('id');
-            $table->integer('field_id');
-            $table->string('value');
-            
+            $table->string('field_id');
+            $table->string('vaue');
         });
-        
         
         Schema::create('groups', function($table) {
             $table->increments('id');
-            $table->string('name');                    
+            $table->string('name');       
+            $table->string('fields');       
         });
+        
     }
 
     /**
@@ -53,8 +50,8 @@ class CreateDefaultDatabase extends Migration {
      */
     public function down() {
         Schema::dropIfExists('field_types');
-        Schema::dropIfExists('fields');
         Schema::dropIfExists('field_values');
+        Schema::dropIfExists('fields');
         Schema::dropIfExists('groups');
     }
 

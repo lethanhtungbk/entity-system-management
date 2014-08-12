@@ -25,9 +25,12 @@ use Frenzycode\ViewModels\Form\FormItemData;
 use Frenzycode\ViewModels\Portlet\PortletData;
 
 
+use Frenzycode\Models\FieldTypes;
+
 Route::get('/', function() {
-    $page = test();
-    return View::make('page.page-index', array('pageData' => $page));
+    //$page = test();
+    //return View::make('page.page-index', array('pageData' => $page));
+    
 });
 
 Route::post('/test1',function(){
@@ -44,6 +47,15 @@ Route::get('/groups/edit/{id}','GroupController@editGroup');
 Route::get('/fields','FieldController@getFields');
 
 Route::post('/groups/save','GroupController@saveGroup');
+Route::post('/groups/update','GroupController@updateGroup');
+
+
+Route::get('/fields','FieldController@getFields');
+Route::get('/fields/add','FieldController@addField');
+Route::get('/fields/edit/{id}','FieldController@editField');
+
+Route::post('/fields/save','FieldController@saveField');
+Route::post('/fields/update','FieldController@updateField');
 
 function test() {
     $pageData = new PageData();

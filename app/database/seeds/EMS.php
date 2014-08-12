@@ -30,36 +30,36 @@ class EMS extends Seeder {
                 )
         );
         
-        //fields
-        DB::table('fields')->insert(
-                array(
-                    //student
-                    array('id' => 1, 'name' => 'Student Name', 'field_type_id' => '1','object_dependences' => '','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
-                    array('id' => 2, 'name' => 'City', 'field_type_id' => '9','object_dependences' => '','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
-                    array('id' => 3, 'name' => 'District', 'field_type_id' => '9','object_dependences' => '','field_dependences' => '2','value_in_object' => '','value_in_field' => ''),
-                    array('id' => 4, 'name' => 'Class', 'field_type_id' => '9','object_dependences' => '2','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
-                    
-                    //class
-                    array('id' => 5, 'name' => 'Class Name', 'field_type_id' => '1','object_dependences' => '','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
-                    array('id' => 6, 'name' => 'Head student', 'field_type_id' => '9','object_dependences' => '','field_dependences' => '','value_in_object' => '1','value_in_field' => ''),
-                    
-                    //subject
-                    array('id' => 7, 'name' => 'Subject Name', 'field_type_id' => '1','object_dependences' => '','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
-                    
-                    //mark
-                    array('id' => 8, 'name' => 'Mark Name', 'field_type_id' => '1','object_dependences' => '','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
-                    array('id' => 9, 'name' => 'Student Name', 'field_type_id' => '9','object_dependences' => '','field_dependences' => '','value_in_object' => '1','value_in_field' => ''),
-                    array('id' => 10, 'name' => 'Value', 'field_type_id' => '10','object_dependences' => '','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
-                )
-        );
+//        //fields
+//        DB::table('fields')->insert(
+//                array(
+//                    //student
+//                    array('id' => 1, 'name' => 'Student Name', 'field_type_id' => '1','object_dependences' => '','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
+//                    array('id' => 2, 'name' => 'City', 'field_type_id' => '9','object_dependences' => '','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
+//                    array('id' => 3, 'name' => 'District', 'field_type_id' => '9','object_dependences' => '','field_dependences' => '2','value_in_object' => '','value_in_field' => ''),
+//                    array('id' => 4, 'name' => 'Class', 'field_type_id' => '9','object_dependences' => '2','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
+//                    
+//                    //class
+//                    array('id' => 5, 'name' => 'Class Name', 'field_type_id' => '1','object_dependences' => '','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
+//                    array('id' => 6, 'name' => 'Head student', 'field_type_id' => '9','object_dependences' => '','field_dependences' => '','value_in_object' => '1','value_in_field' => ''),
+//                    
+//                    //subject
+//                    array('id' => 7, 'name' => 'Subject Name', 'field_type_id' => '1','object_dependences' => '','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
+//                    
+//                    //mark
+//                    array('id' => 8, 'name' => 'Mark Name', 'field_type_id' => '1','object_dependences' => '','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
+//                    array('id' => 9, 'name' => 'Student Name', 'field_type_id' => '9','object_dependences' => '','field_dependences' => '','value_in_object' => '1','value_in_field' => ''),
+//                    array('id' => 10, 'name' => 'Value', 'field_type_id' => '10','object_dependences' => '','field_dependences' => '','value_in_object' => '','value_in_field' => ''),
+//                )
+//        );
         
-        
+        DB::table('groups')->delete();
         DB::table('groups')->insert(
                 array(                    
-                    array('id' => 1, 'name' => 'Student'),
-                    array('id' => 2, 'name' => 'Class'),
-                    array('id' => 3, 'name' => 'Subject'),
-                    array('id' => 4, 'name' => 'Mark'),                    
+                    array('id' => 1, 'name' => 'Student','fields'=>''),
+                    array('id' => 2, 'name' => 'Class','fields'=>''),
+                    array('id' => 3, 'name' => 'Subject','fields'=>''),
+                    array('id' => 4, 'name' => 'Mark','fields'=>''),                    
                 )
         );
 
