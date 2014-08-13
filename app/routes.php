@@ -30,7 +30,7 @@ use Frenzycode\Models\FieldTypes;
 Route::get('/', function() {
     //$page = test();
     //return View::make('page.page-index', array('pageData' => $page));
-    
+    return View::make('test.index');
 });
 
 Route::post('/test1',function(){
@@ -56,6 +56,8 @@ Route::get('/fields/edit/{id}','FieldController@editField');
 
 Route::post('/fields/save','FieldController@saveField');
 Route::post('/fields/update','FieldController@updateField');
+
+
 
 function test() {
     $pageData = new PageData();

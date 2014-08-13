@@ -4,15 +4,15 @@
         <div class="row">
             <div class="col-md-12">
                 <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-                <h3 class="page-title">{{$pageBody->title}}</h3>
+                <h3 class="page-title">{{$pageBody-> title}}</h3>
                 <ul class="page-breadcrumb breadcrumb">
                     @foreach ($pageBody->breadcrumbs as $index => $breadcrumb)
                     <li>
-                        <i class="fa {{$breadcrumb->icon}}"></i>
+                        <i class="fa {{$breadcrumb-> icon}}"></i>
                         @if ($breadcrumb->link != '')
                         <a href="{{URL::to($breadcrumb->link)}}">{{$breadcrumb->title}}</a>
                         @else
-                        <span>{{$breadcrumb->title}}</span>
+                        <span>{{$breadcrumb-> title}}</span>
                         @endif
                         @if ($index != count($pageBody->breadcrumbs) - 1)
                         <i class="fa fa-angle-right"></i>
@@ -25,18 +25,191 @@
         </div>
         <!-- END PAGE HEADER-->
         <!-- BEGIN PAGE CONTENT-->
+        @if (false)
         @foreach ($pageBody->contents as $content)
         {{$content->getView()}}        
         @endforeach
-        
-        
-        @include('components.button-bar',array('buttonBar' => $pageBody->buttonBar))
-        
-        <div class="row">
-            <div class="col-md-12">
-                @include('portlet.portlet',array('portletData' => $pageBody->portletData))
+        @endif
+        <!-- END PAGE CONTENT-->
+
+        <div class="portlet box blue" ng-app>
+            <div class="portlet-title">
+                <div class="caption">
+                    Fields                    
+                </div>        
+            </div>
+            <div class="portlet-body form" ng-controller="FieldController">
+                <form action="#" class="horizontal-form">
+                    <div class="form-body">                        
+                        <h3 class="form-section"> <b>General</b></h3>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Name</label>
+                                    <input type="text" class="form-control" value="@{{fieldName.value}}" name="@{{fieldName.name}}">                                    
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Value type</label>
+                                    
+                                    <select class="form-control"  ng-model="valueType" ng-options="valueType.name for valueType in valueTypes" ng-change="onValueTypeChanged()" ng-init="onValueTypeChanged()"></select>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Display</label>
+                                    <input type="text" id="lastName" class="form-control" placeholder="Lim">
+                                </div>
+                            </div>
+                        </div>                                              
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3 class="form-section">Depend on object(s)</h3>
+                                <div class="form-group">                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input type="checkbox">Object 1</option>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox">Object 2</option>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input type="checkbox">Object 1</option>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox">Object 2</option>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input type="checkbox">Object 1</option>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox">Object 2</option>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div> 
+                            <div class="col-md-6">
+                                <h3 class="form-section">Depend on object(s)</h3>
+                                <div class="form-group">                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input type="checkbox">Object 1</option>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox">Object 2</option>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input type="checkbox">Object 1</option>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox">Object 2</option>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input type="checkbox">Object 1</option>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="checkbox">Object 2</option>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                        <h3 class="form-section"> <b>General</b></h3>
+                        <div class="row">
+                            <label class="col-md-2">Add predefiend value</label>
+                            <div class="col-md-8">
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="btn-group tabletools-btn-group col-md-5">
+                                    <a class="btn blue" onclick="onCustomValueAdd(this)"><i class="fa fa-plus"></i></a>                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+
+                                        <th>
+                                            Object 1
+                                        </th>
+                                        <th>
+                                            Object 2
+                                        </th>
+                                        <th>
+                                            Object 3
+                                        </th>
+                                        <th>
+                                            Object 4
+                                        </th>
+                                        <th>
+                                            Object 5
+                                        </th>
+                                        <th>
+                                            Object 6
+                                        </th>
+                                        <th>
+                                            Object 4
+                                        </th>
+                                        <th>
+                                            Object 5
+                                        </th>
+                                        <th>
+                                            Object 6
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            Object 111111111111111
+                                        </td>
+                                        <td>
+                                            Object 111111111111111
+                                        </td>
+                                        <td>
+                                            Object 111111111111111
+                                        </td>
+                                        <th>
+                                            Object 4
+                                        </th>
+                                        <th>
+                                            Object 5
+                                        </th>
+                                        <th>
+                                            Object 6
+                                        </th>
+                                        <th>
+                                            Object 4
+                                        </th>
+                                        <th>
+                                            Object 5
+                                        </th>
+                                        <th>
+                                            Object 6
+                                        </th>
+                                    </tr>                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-actions right">
+                        <button type="button" class="btn default">Cancel</button>
+                        <button type="submit" class="btn blue"><i class="fa fa-check"></i> Save</button>
+                    </div>
+                </form>
             </div>
         </div>
-        <!-- END PAGE CONTENT-->
     </div>
 </div>
