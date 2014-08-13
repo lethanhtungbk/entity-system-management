@@ -49,5 +49,7 @@ jQuery(document).ready(function() {
     //BEGIN CUSTOM INIT
     {{$pageFooter->initScript}}    
     //END CUSTOM INIT
+    
+    
 });
 </script>

@@ -8,10 +8,13 @@ class RestController extends BaseController {
     public function getFieldDisplay() {
         $input = Input::all();
         $valueType = InputHelper::getInput('value_type', $input, 1);
-        $data = array(
-            'display_types' => FieldTypes::where('value_type','=',$valueType)->lists('name','id'),
-        );
-        return Response::json($data);
+//        $data = array(
+//            'display_types' => FieldTypes::where('value_type','=',$valueType)->lists('name','id'),
+//        );
+        
+        $fieldTypes = FieldTypes::where('value_type','=',$valueType)->select('name','id')->get();
+        
+        return Response::json($fieldTypes);
     }
 
     public function getValueAssignType() {

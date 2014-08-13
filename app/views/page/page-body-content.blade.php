@@ -32,13 +32,17 @@
         @endif
         <!-- END PAGE CONTENT-->
 
-        <div class="portlet box blue" ng-app>
+        <div class="portlet box blue" ng-app="fieldApp">
             <div class="portlet-title">
                 <div class="caption">
                     Fields                    
                 </div>        
             </div>
             <div class="portlet-body form" ng-controller="FieldController">
+                                            <label ng-repeat="role in roles">
+  <input type="checkbox" checklist-model="user.roles" checklist-value="role"> @{{role}}
+</label>
+
                 <form action="#" class="horizontal-form">
                     <div class="form-body">                        
                         <h3 class="form-section"> <b>General</b></h3>
@@ -60,38 +64,21 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="control-label">Display</label>
-                                    <input type="text" id="lastName" class="form-control" placeholder="Lim">
+                                    <select class="form-control"  ng-model="displayType" ng-options="displayType.name for displayType in displayTypes"></select>
                                 </div>
                             </div>
-                        </div>                                              
+                        </div>            
+                        <div class="row">
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <h3 class="form-section">Depend on object(s)</h3>
                                 <div class="form-group">                                    
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="checkbox">Object 1</option>
+                                    <div class="row" >
+                                        <div class="col-md-3" ng-repeat="group in groups">
+                                            <input type="checkbox" ng-check="value1">Object 1</option>
                                         </div>
-                                        <div class="col-md-6">
-                                            <input type="checkbox">Object 2</option>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="checkbox">Object 1</option>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="checkbox">Object 2</option>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="checkbox">Object 1</option>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="checkbox">Object 2</option>
-                                        </div>
-                                    </div>
+                                    </div>                                    
                                 </div>                                
                             </div> 
                             <div class="col-md-6">
@@ -132,7 +119,7 @@
                                     <input type="text" class="form-control" />
                                 </div>
                                 <div class="btn-group tabletools-btn-group col-md-5">
-                                    <a class="btn blue" onclick="onCustomValueAdd(this)"><i class="fa fa-plus"></i></a>                                    
+                                    <a class="btn blue" ng-click="test()"><i class="fa fa-plus"></i></a>                                    
                                 </div>
                             </div>
                         </div>
