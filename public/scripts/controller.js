@@ -48,48 +48,128 @@ fieldApp.controller("FieldController", function($scope, $http)
     $scope.onGroupChange = function() {
         console.log($scope.selectedGroups);
     }
-    
+
     $scope.dependencies = [
         {name: "combo1", data: [
                 {name: 'Combo 1 - 1'},
                 {name: 'Combo 1 - 2'},
                 {name: 'Combo 1 - 3'},
                 {name: 'Combo 1 - 4'},
-            ],selected: null},
+            ], selected: null},
         {name: "combo2", data: [
                 {name: 'Combo 2 - 1'},
                 {name: 'Combo 2 - 1'},
                 {name: 'Combo 2 - 1'},
                 {name: 'Combo 2 - 1'},
-            ],selected: null},
+            ], selected: null},
         {name: "combo3", data: [
                 {name: 'Combo 1 - 1'},
                 {name: 'Combo 1 - 1'},
                 {name: 'Combo 1 - 1'},
                 {name: 'Combo 1 - 1'},
-            ],selected: null},
+            ], selected: null},
         {name: "combo4", data: [
                 {name: 'Combo 1 - 1'},
                 {name: 'Combo 1 - 1'},
                 {name: 'Combo 1 - 1'},
                 {name: 'Combo 1 - 1'},
-            ],selected: null},
+            ], selected: null},
         {name: "combo5", data: [
                 {name: 'Combo 1 - 1'},
                 {name: 'Combo 1 - 1'},
                 {name: 'Combo 1 - 1'},
                 {name: 'Combo 1 - 1'},
-            ],selected: null},
+            ], selected: null},
         {name: "combo6", data: [
                 {name: 'Combo 1 - 1'},
                 {name: 'Combo 1 - 1'},
                 {name: 'Combo 1 - 1'},
                 {name: 'Combo 1 - 1'},
-            ],selected: null},
+            ], selected: null},
     ];
-    
+
+
+    $scope.valueDependencies = [
+        {
+            value: "Test",
+            columns: [
+                {name: "Combo 1"},
+                {name: "Combo 2"},
+                {name: "Combo 3"},
+                {name: "Combo 4"},
+                {name: "Combo 5"},
+                {name: "Combo 6"},
+            ],
+        },
+        {
+            value: "Test",
+            columns: [
+                {name: "Combo 1"},
+                {name: "Combo 2"},
+                {name: "Combo 3"},
+                {name: "Combo 4"},
+                {name: "Combo 5"},
+                {name: "Combo 6"},
+            ],
+        },
+        {
+            value: "Test",
+            columns: [
+                {name: "Combo 1"},
+                {name: "Combo 2"},
+                {name: "Combo 3"},
+                {name: "Combo 4"},
+                {name: "Combo 5"},
+                {name: "Combo 6"},
+            ],
+        },
+        {
+            value: "Test",
+            columns: [
+                {name: "Combo 1"},
+                {name: "Combo 2"},
+                {name: "Combo 3"},
+                {name: "Combo 4"},
+                {name: "Combo 5"},
+                {name: "Combo 6"},
+            ],
+        },
+    ];
+
     $scope.onTestCombo = function() {
         console.log($scope.dependencies);
+    };
+    
+    $scope.predefiendValue = "aaa";
+
+    $scope.onAddValue = function() {
+        var newValue = {};
+        newValue.value = "aaaaaa";
+        newValue.columns = [];
+        
+        for (i = 0;i < $scope.dependencies.length; i++)
+        {
+            
+            var dependency = $scope.dependencies[i];
+            if (dependency.selected === null)
+            {
+                alert(dependency.name + " need selected");
+                return;
+            }
+            
+            newValue.columns.push({"name":dependency.name});
+        }
+        $scope.valueDependencies.push(newValue);
+        console.log(JSON.stringify(newValue));
+        
+//        if ($scope.predefiendValue == "")
+//        {
+//            alert("Need add predefiend value");
+//            return;
+//        }
+        
+        
+        
     };
 });
 
