@@ -39,10 +39,6 @@
                 </div>        
             </div>
             <div class="portlet-body form" ng-controller="FieldController">
-                                            <label ng-repeat="role in roles">
-  <input type="checkbox" checklist-model="user.roles" checklist-value="role"> @{{role}}
-</label>
-
                 <form action="#" class="horizontal-form">
                     <div class="form-body">                        
                         <h3 class="form-section"> <b>General</b></h3>
@@ -53,7 +49,10 @@
                                     <input type="text" class="form-control" value="@{{fieldName.value}}" name="@{{fieldName.name}}">                                    
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            
+                        </div>            
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Value type</label>
                                     
@@ -61,56 +60,41 @@
                                     
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Display</label>
                                     <select class="form-control"  ng-model="displayType" ng-options="displayType.name for displayType in displayTypes"></select>
                                 </div>
                             </div>
-                        </div>            
-                        <div class="row">
                         </div>
+                            
                         <div class="row">
+                           <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Depend on group(s)</label>
+                                    <select class="form-control"  ng-model="selectedGroups" ng-change="onGroupChange()"
+                                            ng-options="group.name for group in groups" multiple ng-multiple="true"></select>
+                                </div>
+                            </div>
                             <div class="col-md-6">
-                                <h3 class="form-section">Depend on object(s)</h3>
-                                <div class="form-group">                                    
-                                    <div class="row" >
-                                        <div class="col-md-3" ng-repeat="group in groups">
-                                            <input type="checkbox" ng-check="value1">Object 1</option>
-                                        </div>
-                                    </div>                                    
-                                </div>                                
-                            </div> 
-                            <div class="col-md-6">
-                                <h3 class="form-section">Depend on object(s)</h3>
-                                <div class="form-group">                                    
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="checkbox">Object 1</option>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="checkbox">Object 2</option>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="checkbox">Object 1</option>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="checkbox">Object 2</option>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="checkbox">Object 1</option>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="checkbox">Object 2</option>
-                                        </div>
-                                    </div>
-                                </div>                                
+                                <div class="form-group">
+                                    <label class="control-label">Depend on value(s)</label>
+                                    <select class="form-control"  ng-model="group" ng-options="group.name for group in groups" multiple></select>
+                                </div>
                             </div>
                         </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4" ng-repeat="dependency in dependencies">
+                                <div class="form-group">
+                                    <label class="control-label">@{{dependency.name}}</label>
+                                    <select class="form-control"  ng-model="dependency.selected" ng-options="item.name for item in dependency.data" ng-change="onTestCombo()"></select>
+                                </div>
+                            </div>
+                        </div>
+                           
+                        
+                        
                         <h3 class="form-section"> <b>General</b></h3>
                         <div class="row">
                             <label class="col-md-2">Add predefiend value</label>

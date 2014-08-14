@@ -24,6 +24,9 @@ fieldApp.controller("FieldController", function($scope, $http)
         {name: 'Object 10'},
     ];
 
+    $scope.group = null;
+    $scope.selectedGroups = [$scope.groups[1], $scope.groups[3]];
+
     $scope.value1 = true;
 
     $scope.onValueTypeChanged = function()
@@ -42,30 +45,51 @@ fieldApp.controller("FieldController", function($scope, $http)
         });
     };
 
-    $scope.test = function()
-    {
-        alert(9);
-   
-    };
-
-    $scope.roles = [
-        'guest',
-        'user',
-        'customer',
-        'admin'
+    $scope.onGroupChange = function() {
+        console.log($scope.selectedGroups);
+    }
+    
+    $scope.dependencies = [
+        {name: "combo1", data: [
+                {name: 'Combo 1 - 1'},
+                {name: 'Combo 1 - 2'},
+                {name: 'Combo 1 - 3'},
+                {name: 'Combo 1 - 4'},
+            ],selected: null},
+        {name: "combo2", data: [
+                {name: 'Combo 2 - 1'},
+                {name: 'Combo 2 - 1'},
+                {name: 'Combo 2 - 1'},
+                {name: 'Combo 2 - 1'},
+            ],selected: null},
+        {name: "combo3", data: [
+                {name: 'Combo 1 - 1'},
+                {name: 'Combo 1 - 1'},
+                {name: 'Combo 1 - 1'},
+                {name: 'Combo 1 - 1'},
+            ],selected: null},
+        {name: "combo4", data: [
+                {name: 'Combo 1 - 1'},
+                {name: 'Combo 1 - 1'},
+                {name: 'Combo 1 - 1'},
+                {name: 'Combo 1 - 1'},
+            ],selected: null},
+        {name: "combo5", data: [
+                {name: 'Combo 1 - 1'},
+                {name: 'Combo 1 - 1'},
+                {name: 'Combo 1 - 1'},
+                {name: 'Combo 1 - 1'},
+            ],selected: null},
+        {name: "combo6", data: [
+                {name: 'Combo 1 - 1'},
+                {name: 'Combo 1 - 1'},
+                {name: 'Combo 1 - 1'},
+                {name: 'Combo 1 - 1'},
+            ],selected: null},
     ];
-    $scope.user = {
-        roles: ['user']
-    };
-    $scope.checkAll = function() {
-        $scope.user.roles = angular.copy($scope.roles);
-    };
-    $scope.uncheckAll = function() {
-        $scope.user.roles = [];
-    };
-    $scope.checkFirst = function() {
-        $scope.user.roles.splice(0, $scope.user.roles.length);
-        $scope.user.roles.push('guest');
+    
+    $scope.onTestCombo = function() {
+        console.log($scope.dependencies);
     };
 });
 
