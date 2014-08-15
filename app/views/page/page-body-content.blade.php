@@ -4,15 +4,15 @@
         <div class="row">
             <div class="col-md-12">
                 <!-- BEGIN PAGE TITLE & BREADCRUMB-->
-                <h3 class="page-title">{{$pageBody-> title}}</h3>
+                <h3 class="page-title">{{$pageBody->title}}</h3>
                 <ul class="page-breadcrumb breadcrumb">
                     @foreach ($pageBody->breadcrumbs as $index => $breadcrumb)
                     <li>
-                        <i class="fa {{$breadcrumb-> icon}}"></i>
+                        <i class="fa {{$breadcrumb->icon}}"></i>
                         @if ($breadcrumb->link != '')
                         <a href="{{URL::to($breadcrumb->link)}}">{{$breadcrumb->title}}</a>
                         @else
-                        <span>{{$breadcrumb-> title}}</span>
+                        <span>{{$breadcrumb->title}}</span>
                         @endif
                         @if ($index != count($pageBody->breadcrumbs) - 1)
                         <i class="fa fa-angle-right"></i>
@@ -39,95 +39,73 @@
                 </div>        
             </div>
             <div class="portlet-body form" ng-controller="FieldController">
-                <form action="#" class="horizontal-form">
-                    <div class="form-body">                        
-                        <h3 class="form-section"> <b>General</b></h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Name</label>
-                                    <input type="text" class="form-control" value="@{{fieldName.value}}" name="@{{fieldName.name}}">                                    
-                                </div>
-                            </div>
-                            
-                        </div>            
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Value type</label>
-                                    
-                                    <select class="form-control"  ng-model="valueType" ng-options="valueType.name for valueType in valueTypes" ng-change="onValueTypeChanged()" ng-init="onValueTypeChanged()"></select>
-                                    
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Display</label>
-                                    <select class="form-control"  ng-model="displayType" ng-options="displayType.name for displayType in displayTypes"></select>
-                                </div>
+                <form action="#" class="form-horizontal">
+
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Name</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control">                                
                             </div>
                         </div>
-                            
-                        <div class="row">
-                           <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Depend on group(s)</label>
-                                    <select class="form-control"  ng-model="selectedGroups" ng-change="onGroupChange()"
-                                            ng-options="group.name for group in groups" multiple ng-multiple="true"></select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label">Depend on value(s)</label>
-                                    <select class="form-control"  ng-model="group" ng-options="group.name for group in groups" multiple></select>
-                                </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Field type</label>
+                            <div class="col-md-4">
+                                <select class="form-control"  
+                                        ng-model="fieldType" 
+                                        ng-options="fieldType.name group by fieldType.group for fieldType in fieldTypes"></select>
                             </div>
                         </div>
-                        <h3 class="form-section"> <b>Predefiend Value</b></h3>
-                        
-                        <div class="row">
-                            <div class="col-md-4" ng-repeat="dependency in dependencies">
-                                <div class="form-group">
-                                    <label class="control-label">@{{dependency.name}}</label>
-                                    <select class="form-control"  ng-model="dependency.selected" ng-options="item.name for item in dependency.data" ng-change="onTestCombo()"></select>
+
+                        <div class="form-group" ng-show="fieldType.groupId == 2 || fieldType.groupId == 3">
+                            <label class="control-label col-md-3">Value Type</label>
+                            <div class="col-md-4" row>
+                                <select class="form-control"  
+                                        ng-model="valueType" 
+                                        ng-options="valueType.name for valueType in valueTypes"></select>
+                                
+                                <!-- Assign to object START-->
+                                <div class="form-group" style="margin-top: 10px;margin-bottom: 10px" ng-show="valueType.id == 2">
+                                    <label class="control-label col-md-2" style="text-align: left">Object</label>
+                                    <div class="col-md-10">
+                                        <select class="form-control"  
+                                                ng-model="object" 
+                                                ng-options="object.name for object in objects"></select>
+                                    </div>
                                 </div>
+                                <div class="form-group" style="margin-top: 10px;margin-bottom: 10px" ng-show="valueType.id == 2">
+                                    <label class="control-label col-md-2" style="text-align: left">Attribute</label>
+                                    <div class="col-md-10">
+                                        <select class="form-control"  
+                                                ng-model="field" 
+                                                ng-options="field.name for field in object.fields"></select>
+                                    </div>
+                                </div>
+                                <!-- Assign to object END-->
+                                <!-- Assign itselft START-->
+                                <div class="row" style="margin-top: 10px;margin-bottom: 10px" ng-show="valueType.id == 1">
+                                    <div ng-repeat="definedValue in definedValues">
+                                        <div class="col-md-7">
+                                            <input type="text" class="form-control" value="@{{definedValue.name}}"/>
+                                        </div>
+                                        <div class="btn-group tabletools-btn-group col-md-5">
+                                            <a class="btn blue" ng-click="onCustomValueAdd($index)"><i class="fa fa-plus"></i></a>
+                                            <a class="btn blue" ng-click="onCustomValueRemove($index)" ng-disabled="definedValues.length == 1"><i class="fa fa-minus" ></i></a>
+                                            <a class="btn blue" ng-click="onCustomValueUp($index)" ng-disabled="$index == 0"><i class="fa fa-arrow-up"></i></a>
+                                            <a class="btn blue" ng-click="onCustomValueDown($index)" ng-disabled="$index == definedValues.length-1"><i class="fa fa-arrow-down"></i></a>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <!-- Assign itselft END-->
                             </div>
                         </div>
-                       <div class="row">
-                            <label class="col-md-2">Add predefiend value</label>
-                            <div class="col-md-8">
-                                <div class="col-md-5">
-                                    <input type="text" class="form-control" value="@{{predefiendValue}}"/>
-                                </div>
-                                <div class="btn-group tabletools-btn-group col-md-5">
-                                    <a class="btn blue" ng-click="onAddValue()"><i class="fa fa-plus"></i></a>                                    
-                                </div>
-                            </div>
-                        </div>    
                         
-                        
-                        
-                        
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th ng-repeat="dependencie in dependencies">@{{dependencie.name}}</th>                                        
-                                        <th >Value</th>                                        
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="valueDependencie in valueDependencies">
-                                        <td ng-repeat="column in valueDependencie.columns">@{{column.name}}</td>
-                                        <td>@{{valueDependencie.value}}
-                                    </tr>                                    
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
-                    <div class="form-actions right">
-                        <button type="button" class="btn default">Cancel</button>
-                        <button type="submit" class="btn blue"><i class="fa fa-check"></i> Save</button>
+                    <div class="form-actions">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn green">Submit</button>
+                            <button type="button" class="btn default">Cancel</button>
+                        </div>
                     </div>
                 </form>
             </div>
