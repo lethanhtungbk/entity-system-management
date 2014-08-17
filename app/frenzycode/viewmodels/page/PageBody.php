@@ -11,6 +11,8 @@ class PageBody {
     public $formData;
     public $portletData;
     
+    public $template;
+    
     public $contents = array();
     public function addMenuItem($menuItem)
     {

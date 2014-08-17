@@ -11,8 +11,6 @@
         <!-- END BODY -->
         <!-- BEGIN FOOTER -->
         @include('page.page-footer',array('pageFooter' => $pageData->footer))
-        <!-- END FOOTER -->
-        {{HTML::script('scripts/angular.min.js')}}        
-        {{HTML::script('scripts/controller.js')}}        
+        <!-- END FOOTER -->       
     </body>
 </html>

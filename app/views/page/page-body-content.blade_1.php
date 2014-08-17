@@ -24,9 +24,14 @@
             </div>
         </div>
         <!-- END PAGE HEADER-->
-        
         <!-- BEGIN PAGE CONTENT-->
-        @include($pageBody->template)
+        @if (false)
+        @foreach ($pageBody->contents as $content)
+        {{$content->getView()}}        
+        @endforeach
+        @endif
         <!-- END PAGE CONTENT-->
+
+        
     </div>
 </div>

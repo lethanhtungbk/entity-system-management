@@ -40,6 +40,10 @@ Route::post('/test1',function(){
 Route::post('/restapi/getFieldDisplay','RestController@getFieldDisplay');
 Route::post('/restapi/getValueAssignType','RestController@getValueAssignType');
 
+Route::get('/restapi/fields','RestController@getFields');
+Route::get('/restapi/fieldTypes','RestController@getFieldTypes');
+Route::get('/restapi/fieldValueTypes','RestController@getFieldValueTypes');
+
 
 Route::get('/groups','GroupController@getGroups');
 Route::get('/groups/add','GroupController@addGroup');
