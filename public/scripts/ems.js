@@ -11,22 +11,47 @@ function insertArrayAt(array, index, arrayToInsert) {
 
 var emsApp = angular.module('emsApp', []);
 
-emsApp.constant('restURI', "http://localhost/ems/public/restapi/");
-
+emsApp.constant('restURI', "http://localhost/ems1/entity-system-management/public/restapi/");
 emsApp.service('fieldService', function($http, $q, restURI) {
 
     return ({
-        getFields: getFields,  
+        getFields: getFields,
+        getField: getField,
         addField: addField,
         removeField: removeField,
         editField: editField,
         getFieldTypes: getFieldTypes,
         getFieldValueTypes: getFieldValueTypes,
+        saveField: saveField
     });
 
     // ---
-    // PUBLIC METHODS.
+    // PUBLIC METHODS.  
     // ---
+    
+    function saveField(data)
+    {
+        var request = $http({
+            method: "post",
+            url: restURI + "saveField",
+            data: data
+        });
+
+        return(request.then(handleSuccess, handleError));
+    }
+    
+    function getField(id)
+    {
+        var request = $http({
+            method: "post",
+            url: restURI + "field",
+            data: {
+                fieldId: id,
+            }
+        });
+
+        return(request.then(handleSuccess, handleError));
+    }
 
     function getFields()
     {

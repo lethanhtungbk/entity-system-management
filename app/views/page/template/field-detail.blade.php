@@ -5,12 +5,12 @@
         </div>        
     </div>
     <div class="portlet-body form" ng-controller="FieldDetailController">
-        <form action="#" class="form-horizontal">
+        <div class="form-horizontal">
             <div class="form-body">
                 <div class="form-group">
                     <label class="col-md-3 control-label">Name</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control">                                
+                        <input type="text" class="form-control" ng-model="field.name">                                
                     </div>
                 </div>
                 <div class="form-group">
@@ -67,11 +67,18 @@
 
             </div>
             <div class="form-actions">
-                <div class="col-md-offset-3 col-md-9">
-                    <button type="submit" class="btn green">Submit</button>
-                    <button type="button" class="btn default">Cancel</button>
+                <div class="col-md-offset-3 col-md-9">      
+                    {{ Form::open(array('url' => URL::to('/fields/save'),'method' => 'post','id'=>'fieldForm')) }}                    
+                        <input type="hidden" name="id" value="{{$templateData}}" id="fieldId"/>
+                        <input type="hidden" name="fieldValue" id="fieldValue"/>
+                        
+                        <a class="btn blue" ng-click="onSubmit()"><i class="fa fa-save"></i> Save</a>                        
+                        <button type="button" class="btn default">Cancel</button>
+                    {{Form::close()}}
                 </div>
             </div>
-        </form>
+        </div>
+        
+        
     </div>
 </div>

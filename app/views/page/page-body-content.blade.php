@@ -26,7 +26,7 @@
         <!-- END PAGE HEADER-->
         
         <!-- BEGIN PAGE CONTENT-->
-        @include($pageBody->template)
+        @include($pageBody->template,array('templateData' => $pageBody->templateData))
         <!-- END PAGE CONTENT-->
     </div>
 </div>

@@ -50,6 +50,10 @@ class FieldController extends BaseController {
     public function saveField() {
 
         $input = Input::all();
+        
+        var_dump($input['fieldValue']);
+        return;
+        
         $field = new Fields();
         $field->name = InputHelper::getInput('name', $input);
         $field->value_type = InputHelper::getInput('value_type', $input);

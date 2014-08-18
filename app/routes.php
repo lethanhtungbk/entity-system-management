@@ -41,6 +41,9 @@ Route::post('/restapi/getFieldDisplay','RestController@getFieldDisplay');
 Route::post('/restapi/getValueAssignType','RestController@getValueAssignType');
 
 Route::get('/restapi/fields','RestController@getFields');
+Route::post('/restapi/field','RestController@getField');
+Route::post('/restapi/saveField','RestController@saveField');
+
 Route::get('/restapi/fieldTypes','RestController@getFieldTypes');
 Route::get('/restapi/fieldValueTypes','RestController@getFieldValueTypes');
 

@@ -12,6 +12,7 @@ class PageBody {
     public $portletData;
     
     public $template;
+    public $templateData = null;
     
     public $contents = array();
     public function addMenuItem($menuItem)

@@ -14,32 +14,12 @@ class CreateDefaultDatabase extends Migration {
         Schema::create('field_types', function($table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('value_type')->default(1);
+            $table->integer('groupId')->default(1);
+            $table->string('group');
             $table->string('display');
         });
         
-        Schema::create('fields', function($table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->integer('value_type')->default(1);
-            $table->integer('display_type')->default(1);
-            $table->string('depend_on_objects');
-            $table->string('depend_on_fields');
-            $table->integer('assign_type')->default(1);            
-        });
-        
-        
-        Schema::create('field_values', function($table) {
-            $table->increments('id');
-            $table->string('field_id');
-            $table->string('vaue');
-        });
-        
-        Schema::create('groups', function($table) {
-            $table->increments('id');
-            $table->string('name');       
-            $table->string('fields');       
-        });
+       
         
     }
 

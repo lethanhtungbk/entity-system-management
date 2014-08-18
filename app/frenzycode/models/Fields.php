@@ -15,5 +15,7 @@ class Fields extends Eloquent {
     
     public static $valueType = array('1' => 'Single value', '2' => 'Multiple values - Single select', '3' => 'Multiple value - Multiple select');
     public static $assignType =  array('1' => 'Self-Value', '2' => 'Object-Value', '3' => 'Field-Value');
+    
+    
 
 }

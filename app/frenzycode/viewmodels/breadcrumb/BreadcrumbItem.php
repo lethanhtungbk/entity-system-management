@@ -12,8 +12,8 @@ class BreadcrumbItem {
 
     function __construct($array = null) {
         $this->title = FrenzyHelper::getValueFromArray('title', $array,'');
-        $this->icon = FrenzyHelper::getValueFromArray('title', $array,'');
-        $this->link = FrenzyHelper::getValueFromArray('title', $array,'');        
+        $this->icon = FrenzyHelper::getValueFromArray('icon', $array,'');
+        $this->link = FrenzyHelper::getValueFromArray('link', $array,'');        
     }
 
 }
