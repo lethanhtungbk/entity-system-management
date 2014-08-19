@@ -3,10 +3,40 @@
 namespace Frenzycode\Libraries;
 
 use URL;
+use ReflectionObject;
 
 class FrenzyHelper {
-    
-    
+
+    public static function arrayToObject($array, $class) {
+        $object = new $class;
+        foreach ($array as $key => $value) {
+            $object->$key = $value;
+        }
+        return $object;
+    }
+
+    public static function cast($destination, $sourceObject) {
+        if (is_string($destination)) {
+            $destination = new $destination();
+        }
+        $sourceReflection = new ReflectionObject($sourceObject);
+        $destinationReflection = new ReflectionObject($destination);
+        $sourceProperties = $sourceReflection->getProperties();
+        foreach ($sourceProperties as $sourceProperty) {
+            $sourceProperty->setAccessible(true);
+            $name = $sourceProperty->getName();
+            $value = $sourceProperty->getValue($sourceObject);
+            if ($destinationReflection->hasProperty($name)) {
+                $propDest = $destinationReflection->getProperty($name);
+                $propDest->setAccessible(true);
+                $propDest->setValue($destination, $value);
+            } else {
+                $destination->$name = $value;
+            }
+        }
+        return $destination;
+    }
+
     public static function getValueFromArray($index, $array, $default = '') {
         if ($array == null || !is_array($array)) {
             return $default;
@@ -36,7 +66,7 @@ class FrenzyHelper {
             $itag = ($menu->icon == '') ? '' : 'class="' . $menu->icon . '"';
 
             $hasSubItem = count($menu->children) > 0;
-            $href = $hasSubItem ? 'javascript;;' : URL::to($menu->link) ;
+            $href = $hasSubItem ? 'javascript;;' : URL::to($menu->link);
 
             $subMenu = $hasSubItem ? sprintf('<ul class="sub-menu">%s</ul>', self::generateMenu($menu->children)) : '';
 

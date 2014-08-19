@@ -4,15 +4,15 @@
             Fields                      
         </div>        
     </div>
-    <div class="portlet-body" ng-controller="FieldController" ng-init="getFields()">
+    <div class="portlet-body" ng-controller="FieldController">
         <div class="row">
             <div class="col-md-12">                
                 <div class="btn-group tabletools-btn-group pull-left">
                     <input type="text" class="form-control" placeholder="Search field.." ng-model="searchField"/>
                 </div>
                 <div class="btn-group tabletools-btn-group pull-right">
-                    <a href="{{URL::to('/fields/add')}}" class="btn blue"><i class="fa fa-plus"></i> Add field</a>
-                    <a href="/fields/add" class="btn red-pink"><i class="fa fa-minus"></i> Remove fields</a>
+                    <a href="{{URL::to('/setting/fields/add')}}" class="btn blue"><i class="fa fa-plus"></i> Add field</a>
+                    <a href="/fields/add" class="btn red-flamingo"><i class="fa fa-minus"></i> Remove fields</a>
                 </div>
             </div>
         </div>
@@ -34,15 +34,15 @@
             <tbody>
                 <tr ng-repeat="field in fields| filter:{name:searchField}">                   
                     <td>
-                        @{{field.name}}
+                        <a ng-href="@{{base+'/setting/fields/edit/'+field.id}}">@{{field.name}}</a>
                     </td>
                     <td>
-                        Text Edit
+                        @{{field.field_type}}
                     </td>
                     <td>
                         <div class="btn-group tabletools-btn-group pull-right">
-                            <a ng-href="/fields/edit/@{{field.id}}" class="btn blue"><i class="fa fa-edit"></i></a>
-                            <a href="/" class="btn red-pink"><i class="fa fa-minus"></i></a>
+                            <a ng-href="@{{base+'/setting/fields/edit/'+field.id}}" class="btn blue"><i class="fa fa-edit"></i></a>
+                            <a ng-click="onRemove($index)" class="btn red-flamingo"><i class="fa fa-minus"></i></a>
                         </div>
                     </td>                    
                 </tr>                  

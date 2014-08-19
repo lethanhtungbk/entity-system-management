@@ -5,44 +5,13 @@ use Frenzycode\Models\Fields;
 use Frenzycode\ViewModels\Page\Templates\GroupPage;
 use Frenzycode\Libraries\InputHelper;
 
+use Frenzycode\ViewModels\Page\Templates\PageFactory;
+
 class GroupController extends BaseController {
 
     public function getGroups() {
-        $groups = Groups::all();
-        
-        $fields = Fields::lists('name','id');
-        
-        
-        foreach ($groups as $group)
-        {
-            $groupFields = explode(InputHelper::DELIMITER,$group->fields);
-            $groupFieldNames = array();
-            foreach ($groupFields as $groupField)
-            {
-                if (array_key_exists($groupField, $fields))
-                {
-                    array_push($groupFieldNames, $fields[$groupField]);
-                }
-                else
-                {
-                    array_push($groupFieldNames, "undefiend");
-                }
-            }
-            $group->fields_name = implode(' , ', $groupFieldNames);
-        }
-        
-        $groupPage = new GroupPage();
-        $this->configPage($groupPage);
-        $groupPage->setListMode($groups);
-        $success = Session::get('success');
-        if ($success != null) {
-            $groupPage->addPageMessage(array('title' => $success, 'style' => 'alert-success'));
-        }
-        $fail = Session::get('error');
-        if ($fail != null) {
-            $groupPage->addPageMessage(array('title' => $fail, 'style' => 'alert-danger'));
-        }
-        return $groupPage->buildPage();
+        $pageData = PageFactory::getPage('groups');
+        return View::make('page.page-index',array('pageData' => $pageData));
     }
 
     public function addGroup() {

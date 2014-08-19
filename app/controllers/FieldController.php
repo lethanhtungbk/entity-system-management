@@ -10,40 +10,23 @@ use Frenzycode\ViewModels\Page\Templates\PageFactory;
 class FieldController extends BaseController {
 
     public function getFields() {
-//        $fields = Fields::all();
-//        $fieldPage = new FieldPage();
-//        $this->configPage($fieldPage);
-//        $fieldPage->setListMode($fields);
-//        $success = Session::get('success');
-//        if ($success != null) {
-//            $fieldPage->addPageMessage(array('title' => $success, 'style' => 'alert-success'));
-//        }
-//        $fail = Session::get('error');
-//        if ($fail != null) {
-//            $fieldPage->addPageMessage(array('title' => $fail, 'style' => 'alert-danger'));
-//        }
-//        return $fieldPage->buildPage();
-    
         $pageData = PageFactory::getPage('fields');
         return View::make('page.page-index',array('pageData' => $pageData));
     }
 
     public function addField() {
-//        $fieldPage = new FieldPage();
-//        $fieldPage->setDetailMode(null, Session::get('input'), Groups::lists('name', 'id'), Fields::lists('name', 'id'));
-//        $messages = Session::get('messages');
-//        if ($messages != null) {
-//            foreach ($messages as $message) {
-//                $fieldPage->addPageMessage(array('title' => $message, 'style' => 'alert-danger'));
-//            }
-//        }
-//        return $fieldPage->buildPage();
-        $pageData = PageFactory::getPage('field-add');
+        $templateData = new stdClass();
+        $templateData->action = "add";
+        $templateData->id = null;
+        $pageData = PageFactory::getPage('field-add',$templateData);
         return View::make('page.page-index',array('pageData' => $pageData));
     }
 
     public function editField($id) {
-        $pageData = PageFactory::getPage('field-add');
+        $templateData = new stdClass();
+        $templateData->action = "update";
+        $templateData->id = $id;
+        $pageData = PageFactory::getPage('field-add',$templateData);
         return View::make('page.page-index',array('pageData' => $pageData));
     }
 

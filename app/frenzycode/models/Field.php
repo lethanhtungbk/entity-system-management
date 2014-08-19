@@ -2,30 +2,26 @@
 
 namespace Frenzycode\Models;
 
+use DB;
+use Log;
+use Frenzycode\Libraries\FrenzyHelper;
+
 class Field {
 
-    public $id = "";
-    public $name = "";
-    public $fieldTypeId = 1;
-    public $valueTypeId = 1;
-    public $objectId;
-    public $attributeId;
-    public $definedValues;
-
-    public function getFieldTypes() {        
-        return array(
-            array("id" => "1", "name" => "Textedit", "group" => "Single Value", "groupId" => "1"),
-            array("id" => "2", "name" => "Textarea", "group" => "Single Value", "groupId" => "1"),
-            array("id" => "3", "name" => "Date", "group" => "Single Value", "groupId" => "1"),
-            array("id" => "4", "name" => "Datetime", "group" => "Single Value", "groupId" => "1"),
-            array("id" => "5", "name" => "Audio", "group" => "Single Value", "groupId" => "1"),
-            array("id" => "6", "name" => "Video", "group" => "Single Value", "groupId" => "1"),
-            array("id" => "7", "name" => "File", "group" => "Single Value", "groupId" => "1"),
-            array("id" => "8", "name" => "Dropdown", "group" => "Multi Value - Single Select", "groupId" => "2"),
-            array("id" => "9", "name" => "Checkbox", "group" => "Multi Value - Single Select", "groupId" => "2"),
-            array("id" => "10", "name" => "Textedit", "group" => "Multi Value - Multi Select", "groupId" => "3"),
-            array("id" => "11", "name" => "Radiobox", "group" => "Multi Value - Multi Select", "groupId" => "4"),
-        );
+    public $name;
+    public $id;
+    public $field_type_id;
+    public $value_type;
+    public $object_id;
+    public $attribute_id;
+    public $defineValues;
+    
+    function __construct() {
+        $this->defineValues = array(array("id" => "-1", "value" => "", "ordering" => 0));
+    }
+    
+    public function getFieldTypes() {
+        return FieldTypes::select("id", "name", "group", "groupId")->get();
     }
 
     public function getValueTypes() {
@@ -42,6 +38,98 @@ class Field {
             array("id" => 3, "name" => "Object 3"),
             array("id" => 4, "name" => "Object 4"),
         );
+    }
+
+    public static function getFields() {
+        return DB::table('fields')
+                        ->join('field_types', 'fields.field_type_id', '=', 'field_types.id')
+                        ->select("fields.id", "fields.name", "field_types.name as field_type")->get();
+    }
+
+    public static function getField($id) {
+        $fielddb = DB::table('fields')
+                        ->where('id', '=', $id)
+                        ->select('id', 'name', 'field_type_id', 'value_type', 'object_id', 'attribute_id')->first();
+        if ($fielddb != null) {
+            $field = FrenzyHelper::cast('Frenzycode\Models\Field', $fielddb);
+
+            $defineValues = DB::table('field_define_values')->where('field_id', '=', $id)
+                            ->select('id', 'value', 'ordering')->get();
+
+            if (count($defineValues) > 0) {
+                $field->defineValues = $defineValues;
+            }
+            return $field;
+        }
+        return null;
+    }
+
+    public function save() {
+        $record = array();
+        $record["name"] = $this->name;
+        $record["field_type_id"] = $this->field_type_id;
+        if ($this->value_type != null) {
+            $record["value_type"] = $this->value_type;
+        }
+        if ($this->object_id != null) {
+            $record["object_id"] = $this->object_id;
+        }
+        if ($this->attribute_id != null) {
+            $record["attribute_id"] = $this->attribute_id;
+        }
+        $this->id = DB::table('fields')->insertGetId($record);
+        $this->updateDefineValues();
+    }
+
+    public function update() {
+        $record = array();
+        $record["name"] = $this->name;
+        $record["field_type_id"] = $this->field_type_id;
+        if ($this->value_type != null) {
+            $record["value_type"] = $this->value_type;
+        }
+        if ($this->object_id != null) {
+            $record["object_id"] = $this->object_id;
+        }
+        if ($this->attribute_id != null) {
+            $record["attribute_id"] = $this->attribute_id;
+        }
+        DB::table('fields')->where('id', '=', $this->id)->update($record);
+        $this->updateDefineValues();
+    }
+
+    public function updateDefineValues() {
+        if ($this->defineValues != null)
+        {
+            Log::error("start updateDefineValues");
+            $ordering = 1;
+            foreach ($this->defineValues as $defineValue)
+            {
+                $record = array("value" => $defineValue->value,"ordering" => $ordering,"field_id" => $this->id);
+                if ($defineValue->id == -1)
+                {
+                    Log::error("-1 case");
+                    //create new one
+                    if ($defineValue->value != "")
+                    {
+                        Log::error("go");
+                        DB::table('field_define_values')->insert($record);
+                        $ordering++;
+                    }
+                }
+                else
+                {
+                    Log::error("id case");
+                    //update exist one
+                    if ($defineValue->value != "")
+                    {
+                        Log::error("111111111");
+                        DB::table('field_define_values')->where('id','=',$defineValue->id)->update($record);
+                        $ordering++;
+                    }
+                }
+            }
+        }
     }
 
 }

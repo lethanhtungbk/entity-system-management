@@ -24,45 +24,62 @@ use Frenzycode\ViewModels\Form\FormData;
 use Frenzycode\ViewModels\Form\FormItemData;
 use Frenzycode\ViewModels\Portlet\PortletData;
 
+use Frenzycode\ViewModels\Page\Templates\RouteManager;
 
 use Frenzycode\Models\FieldTypes;
+
+foreach (RouteManager::getRoute() as $route)
+{
+    if ($route['type'] == 'post')
+    {
+        Route::post($route['url'],$route['handle']);
+    }
+    else if ($route['type'] == 'get')
+    {
+        Route::get($route['url'],$route['handle']);
+    }
+}
 
 Route::get('/', function() {
     //$page = test();
     //return View::make('page.page-index', array('pageData' => $page));
     return View::make('test.index');
 });
-
-Route::post('/test1',function(){
-    var_dump(Input::all());
-});
-
-Route::post('/restapi/getFieldDisplay','RestController@getFieldDisplay');
-Route::post('/restapi/getValueAssignType','RestController@getValueAssignType');
-
-Route::get('/restapi/fields','RestController@getFields');
-Route::post('/restapi/field','RestController@getField');
-Route::post('/restapi/saveField','RestController@saveField');
-
-Route::get('/restapi/fieldTypes','RestController@getFieldTypes');
-Route::get('/restapi/fieldValueTypes','RestController@getFieldValueTypes');
-
-
-Route::get('/groups','GroupController@getGroups');
-Route::get('/groups/add','GroupController@addGroup');
-Route::get('/groups/edit/{id}','GroupController@editGroup');
-Route::get('/fields','FieldController@getFields');
-
-Route::post('/groups/save','GroupController@saveGroup');
-Route::post('/groups/update','GroupController@updateGroup');
-
-
-Route::get('/fields','FieldController@getFields');
-Route::get('/fields/add','FieldController@addField');
-Route::get('/fields/edit/{id}','FieldController@editField');
-
-Route::post('/fields/save','FieldController@saveField');
-Route::post('/fields/update','FieldController@updateField');
+//  
+//Route::get('test1',function(){
+//    var_dump(Request::segments());
+//});
+//
+//
+//
+//
+//
+//Route::post('/restapi/getFieldDisplay','RestController@getFieldDisplay');
+//Route::post('/restapi/getValueAssignType','RestController@getValueAssignType');
+//
+//Route::get('/restapi/fields','RestController@getFields');
+//Route::post('/restapi/field','RestController@getField');
+//Route::post('/restapi/saveField','RestController@saveField');
+//
+//Route::get('/restapi/fieldTypes','RestController@getFieldTypes');
+//Route::get('/restapi/fieldValueTypes','RestController@getFieldValueTypes');
+//
+//
+//Route::get('/groups','GroupController@getGroups');
+//Route::get('/groups/add','GroupController@addGroup');
+//Route::get('/groups/edit/{id}','GroupController@editGroup');
+//Route::get('/fields','FieldController@getFields');
+//
+//Route::post('/groups/save','GroupController@saveGroup');
+//Route::post('/groups/update','GroupController@updateGroup');
+//
+//
+//Route::get('/fields','FieldController@getFields');
+//Route::get('/fields/add','FieldController@addField');
+//Route::get('/fields/edit/{id}','FieldController@editField');
+//
+//Route::post('/fields/save','FieldController@saveField');
+//Route::post('/fields/update','FieldController@updateField');
 
 
 

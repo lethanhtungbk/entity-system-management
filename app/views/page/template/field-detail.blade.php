@@ -49,9 +49,9 @@
                         <!-- Assign to object END-->
                         <!-- Assign itselft START-->
                         <div class="row" style="margin-top: 10px;margin-bottom: 10px" ng-show="valueType.id == 1">
-                            <div ng-repeat="definedValue in definedValues">
+                            <div ng-repeat="defineValue in field.defineValues">
                                 <div class="col-md-7">
-                                    <input type="text" class="form-control" value="@{{definedValue.name}}"/>
+                                    <input type="text" class="form-control" ng-model="defineValue.value"/>
                                 </div>
                                 <div class="btn-group tabletools-btn-group col-md-5">
                                     <a class="btn blue" ng-click="onCustomValueAdd($index)"><i class="fa fa-plus"></i></a>
@@ -68,17 +68,14 @@
             </div>
             <div class="form-actions">
                 <div class="col-md-offset-3 col-md-9">      
-                    {{ Form::open(array('url' => URL::to('/fields/save'),'method' => 'post','id'=>'fieldForm')) }}                    
-                        <input type="hidden" name="id" value="{{$templateData}}" id="fieldId"/>
-                        <input type="hidden" name="fieldValue" id="fieldValue"/>
-                        
-                        <a class="btn blue" ng-click="onSubmit()"><i class="fa fa-save"></i> Save</a>                        
-                        <button type="button" class="btn default">Cancel</button>
-                    {{Form::close()}}
+                    <input type="hidden" value="{{$templateData->id}}" id="fieldId"/>
+                    <input type="hidden" value="{{$templateData->action}}" id="fieldAction"/>
+                    <a class="btn blue" ng-click="onSubmit()"><i class="fa fa-save"></i> Save</a>                        
+                    <button type="button" class="btn default">Cancel</button>
                 </div>
             </div>
         </div>
-        
-        
+
+
     </div>
 </div>

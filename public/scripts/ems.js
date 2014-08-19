@@ -9,9 +9,34 @@ function insertArrayAt(array, index, arrayToInsert) {
     return array;
 }
 
+Array.prototype.swap = function(x, y) {
+    var b = this[x];
+    this[x] = this[y];
+    this[y] = b;
+    return this;
+}
+
+function searchObject(array,key,value)
+{
+    if (array == null || array == undefined)
+    {
+        return undefined;
+    }
+    
+    for (var i=0;i<array.length;i++)
+    {
+        if (array[i][key] === value)
+        {
+            return array[i];
+        }
+    }
+    return undefined;
+}
+
 var emsApp = angular.module('emsApp', []);
 
-emsApp.constant('restURI', "http://localhost/ems1/entity-system-management/public/restapi/");
+emsApp.constant('restURI', "http://localhost/ems/public/restapi/");
+emsApp.value('base', "http://localhost/ems/public/");
 emsApp.service('fieldService', function($http, $q, restURI) {
 
     return ({
@@ -57,7 +82,7 @@ emsApp.service('fieldService', function($http, $q, restURI) {
     {
 
         var request = $http({
-            method: "get",
+            method: "post",
             url: restURI + "fields",
         });
 
@@ -134,22 +159,7 @@ emsApp.service('fieldService', function($http, $q, restURI) {
         return(response.data);
 
     }
-
-    this.getFields = function()
-    {
-        return $http.get('http://localhost/ems/public/restapi/fields').then(function(result) {
-            return result.data;
-        });
-    }
+   
 });
 
 
-emsApp.controller('FieldController', function($scope, fieldService)
-{
-    angular.element(document).ready(function() {
-        fieldService.getFields().then(function(fields) {
-            $scope.fields = fields;
-            console.log($scope.fields);
-        });
-    });
-});

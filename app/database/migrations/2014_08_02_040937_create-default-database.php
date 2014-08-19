@@ -19,8 +19,21 @@ class CreateDefaultDatabase extends Migration {
             $table->string('display');
         });
         
-       
+        Schema::create('fields', function($table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->integer('field_type_id')->default(0);
+            $table->integer('value_type')->default(0);
+            $table->integer('object_id')->default(0);
+            $table->integer('attribute_id')->default(0);
+        });
         
+        Schema::create('field_define_values',function($table) {
+            $table->increments('id');
+            $table->integer('field_id');
+            $table->string('value');
+            $table->integer('ordering');
+        });
     }
 
     /**
@@ -30,8 +43,8 @@ class CreateDefaultDatabase extends Migration {
      */
     public function down() {
         Schema::dropIfExists('field_types');
-        Schema::dropIfExists('field_values');
         Schema::dropIfExists('fields');
+        Schema::dropIfExists('field_define_values');
         Schema::dropIfExists('groups');
     }
 
