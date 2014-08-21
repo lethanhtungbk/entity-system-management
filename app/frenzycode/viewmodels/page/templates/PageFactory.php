@@ -21,12 +21,25 @@ class PageFactory {
             case 'field-add':
                 $pageData = self::createFieldAdd($data);
                 break;
+         
             case 'groups':
                 $pageData = self::createGroups($data);
                 break;
+            
+            case 'group-assign':
+                $pageData = self::createGroupAssign($data);
+                break;
+            
+            case 'group-detail':
+                $pageData = self::createGroupDetail($data);
+                break;
+                
         }
 
-        self::initialize($pageData);
+        if ($pageData != null)
+        {
+            self::initialize($pageData);
+        }
         return $pageData;
     }
 
@@ -114,8 +127,44 @@ class PageFactory {
 
         $pageData->addScript('scripts/angular.min.js');
         $pageData->addScript('scripts/ems.js');
+        $pageData->addScript('scripts/service/base-service.js');
+        $pageData->addScript('scripts/service/group-service.js');
         $pageData->addScript('scripts/controller/groups.js');
         return $pageData;
     }
+    
+    private static function createGroupAssign($data = null) {
+        $pageData = new PageData();
 
+        $pageData->body->addBreadcrumbItem(new BreadcrumbItem(array('icon' => 'fa-home', 'title' => 'Dashboard', 'link' => '/')));
+        $pageData->body->addBreadcrumbItem(new BreadcrumbItem(array('title' => 'Groups', 'link' => '/group')));
+        $pageData->body->addBreadcrumbItem(new BreadcrumbItem(array('title' => 'Group assign', 'link' => '/group/assign')));
+
+        $pageData->body->template = 'page.template.group-assign';
+        $pageData->body->templateData = $data;
+
+        $pageData->addScript('scripts/angular.min.js');
+        $pageData->addScript('scripts/ems.js');
+        $pageData->addScript('scripts/controller/group-assign.js');
+        return $pageData;
+    }
+    
+    private static function createGroupDetail($data = null)
+    {
+        $pageData = new PageData();
+
+        $pageData->body->addBreadcrumbItem(new BreadcrumbItem(array('icon' => 'fa-home', 'title' => 'Dashboard', 'link' => '/')));
+        $pageData->body->addBreadcrumbItem(new BreadcrumbItem(array('title' => 'Groups', 'link' => 'setting/groups')));
+        $pageData->body->addBreadcrumbItem(new BreadcrumbItem(array('title' => 'Group', 'link' => 'setting/groups/add')));
+
+        $pageData->body->template = 'page.template.group-detail';
+        $pageData->body->templateData = $data;
+
+        $pageData->addScript('scripts/angular.min.js');
+        $pageData->addScript('scripts/ems.js');
+        $pageData->addScript('scripts/service/base-service.js');
+        $pageData->addScript('scripts/service/group-service.js');
+        $pageData->addScript('scripts/controller/groups.js');
+        return $pageData;
+    }
 }

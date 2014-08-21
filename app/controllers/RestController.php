@@ -3,7 +3,7 @@
 use Frenzycode\Libraries\InputHelper;
 use Frenzycode\Libraries\FrenzyHelper;
 use Frenzycode\Models\Field;
-use Frenzycode\Models\FieldTypes;
+use Frenzycode\Models\Group;
 
 class RestController extends BaseController {
 
@@ -50,7 +50,49 @@ class RestController extends BaseController {
             return Response::json($data);
         }
     }
-
+    
+    public function getGroups()
+    {
+        $groups = Group::getGroups();
+        return Response::json($groups);
+    }
+    
+    public function getGroup() {
+        $id = InputHelper::getInput('id', Input::all());
+        $group = ($id == "") ? new Group() : Group::getGroup($id);
+        $data = new stdClass();
+        $data->group = $group;
+        return Response::json($data);
+    }
+    
+    public function saveGroup()
+    {
+        $input = Input::all();
+        $data = json_decode(InputHelper::getInput('data', $input));
+        $action = InputHelper::getInput('action', $input);
+        $group = FrenzyHelper::cast('Frenzycode\Models\Group', $data);        
+        if ($action == 'add') {
+            $group->save();
+            $data = new stdClass();
+            $data->success = new stdClass();
+            $data->success->message = "Field added successfully.";
+            $data->success->url = URL::to("setting/groups");
+            return Response::json($data);
+        } else if ($action == 'update') {
+            $group->update();
+            $data = new stdClass();
+            $data->success = new stdClass();
+            $data->success->message = "Field updated successfully.";
+            return Response::json($data);
+        } else {
+            //unknow action
+            $data = new stdClass();
+            $data->error = new stdClass();
+            $data->error->message = "Unknow action.Please do again.";
+            return Response::json($data);
+        }
+    }
+    
     public function getObjects() {
         
     }

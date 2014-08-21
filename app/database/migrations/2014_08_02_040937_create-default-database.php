@@ -34,6 +34,11 @@ class CreateDefaultDatabase extends Migration {
             $table->string('value');
             $table->integer('ordering');
         });
+        
+        Schema::create('groups', function($table) {
+            $table->increments('id');
+            $table->string('name');
+        });
     }
 
     /**

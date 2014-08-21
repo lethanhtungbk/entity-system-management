@@ -27,21 +27,21 @@
                         Field Type
                     </th>
                     <th width='105px !important'>
-
+                        Action    
                     </th>                    
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="field in fields| filter:{name:searchField}">                   
                     <td>
-                        <a ng-href="@{{base+'/setting/fields/edit/'+field.id}}">@{{field.name}}</a>
+                        <a ng-href="{{URL::to('/setting/fields/edit/')}}/@{{field.id}}">@{{field.name}}</a>
                     </td>
                     <td>
                         @{{field.field_type}}
                     </td>
                     <td>
                         <div class="btn-group tabletools-btn-group pull-right">
-                            <a ng-href="@{{base+'/setting/fields/edit/'+field.id}}" class="btn blue"><i class="fa fa-edit"></i></a>
+                            <a ng-href="{{URL::to('/setting/fields/edit/')}}/@{{field.id}}" class="btn blue"><i class="fa fa-edit"></i></a>
                             <a ng-click="onRemove($index)" class="btn red-flamingo"><i class="fa fa-minus"></i></a>
                         </div>
                     </td>                    

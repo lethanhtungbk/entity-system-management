@@ -1,5 +1,4 @@
-var groupAssignApp = angular.module("groupAssignApp", []);
-groupAssignApp.controller("GroupAssignController", function($scope, $http)
+emsApp.controller("GroupAssignController", function($scope, $http)
 {
     $scope.fields = [
         {id: "1", name: "Field 1"},

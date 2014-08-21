@@ -16,7 +16,7 @@
 <script src="../../assets/global/plugins/excanvas.min.js"></script> 
 <![endif]-->
 <script>
-    var base = "{{URL::to('/')}}";  
+    var baseURL = "{{URL::to('/')}}";  
 </script>
 {{HTML::script('assets/global/plugins/jquery-1.11.0.min.js')}}
 {{HTML::script('assets/global/plugins/jquery-migrate-1.2.1.min.js')}}

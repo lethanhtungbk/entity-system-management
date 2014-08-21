@@ -16,14 +16,14 @@ Array.prototype.swap = function(x, y) {
     return this;
 }
 
-function searchObject(array,key,value)
+function searchObject(array, key, value)
 {
     if (array == null || array == undefined)
     {
         return undefined;
     }
-    
-    for (var i=0;i<array.length;i++)
+
+    for (var i = 0; i < array.length; i++)
     {
         if (array[i][key] === value)
         {
@@ -34,26 +34,18 @@ function searchObject(array,key,value)
 }
 
 var emsApp = angular.module('emsApp', []);
-
-emsApp.constant('restURI', "http://localhost/ems/public/restapi/");
-emsApp.value('base', "http://localhost/ems/public/");
-emsApp.service('fieldService', function($http, $q, restURI) {
-
+emsApp.value('baseURL', baseURL);
+emsApp.service('fieldService', function($http, $q) {
+    var restURI = baseURL + "/restapi/";
     return ({
         getFields: getFields,
         getField: getField,
-        addField: addField,
-        removeField: removeField,
-        editField: editField,
-        getFieldTypes: getFieldTypes,
-        getFieldValueTypes: getFieldValueTypes,
-        saveField: saveField
+        saveField: saveField,
     });
 
     // ---
     // PUBLIC METHODS.  
     // ---
-    
     function saveField(data)
     {
         var request = $http({
@@ -61,10 +53,9 @@ emsApp.service('fieldService', function($http, $q, restURI) {
             url: restURI + "saveField",
             data: data
         });
-
         return(request.then(handleSuccess, handleError));
     }
-    
+
     function getField(id)
     {
         var request = $http({
@@ -74,13 +65,11 @@ emsApp.service('fieldService', function($http, $q, restURI) {
                 fieldId: id,
             }
         });
-
         return(request.then(handleSuccess, handleError));
     }
 
     function getFields()
     {
-
         var request = $http({
             method: "post",
             url: restURI + "fields",
@@ -89,46 +78,9 @@ emsApp.service('fieldService', function($http, $q, restURI) {
         return(request.then(handleSuccess, handleError));
     }
 
-    function addField()
-    {
-
-    }
-
-    function removeField()
-    {
-
-    }
-
-    function editField()
-    {
-
-    }
-
-    function getFieldTypes()
-    {
-        var request = $http({
-            method: "get",
-            url: restURI + "fieldTypes",
-        });
-
-        return(request.then(handleSuccess, handleError));
-    }
-
-    function getFieldValueTypes()
-    {
-        var request = $http({
-            method: "get",
-            url: restURI + "fieldValueTypes",
-        });
-
-        return(request.then(handleSuccess, handleError));
-    }
-
     // ---
     // PRIVATE METHODS.
     // ---
-
-
     // I transform the error response, unwrapping the application dta from
     // the API response payload.
     function handleError(response) {
@@ -151,15 +103,11 @@ emsApp.service('fieldService', function($http, $q, restURI) {
 
     }
 
-
     // I transform the successful response, unwrapping the application data
     // from the API response payload.
     function handleSuccess(response) {
-
         return(response.data);
-
     }
-   
 });
 
 
