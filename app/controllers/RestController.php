@@ -93,6 +93,60 @@ class RestController extends BaseController {
         }
     }
     
+    public function getGroupFields()
+    {
+        $id = InputHelper::getInput('id', Input::all());
+        $group = Group::getGroup($id);
+        if ($group != null)
+        {
+            $data = new stdClass();
+            $group->getFields();
+            $data->group = $group;
+            
+            $fields = Field::getFields();
+            //all fields assinged to group
+            foreach ($group->fields as $assignField)
+            {
+                foreach ($fields as $index => $field)
+                {
+                    if ($field->id == $assignField->id)
+                    {
+                        unset($fields[$index]);
+                    }
+                }
+            }
+            $data->fields = array_values($fields);
+            
+            return Response::json($data);
+        }
+        //TODO: need implement cannot find group case
+        return null;
+    }
+    
+    public function saveGroupFields()
+    {
+        $input = Input::all();
+        //$id = InputHelper::getInput('id', Input::all());
+        
+        $data = json_decode(InputHelper::getInput('data', $input));
+        $action = InputHelper::getInput('action', $input);
+        $group = FrenzyHelper::cast('Frenzycode\Models\Group', $data);
+        
+        if ($action == 'update-fields') {
+            $group->saveFields();
+            $data = new stdClass();
+            $data->success = new stdClass();
+            $data->success->message = "Assign fields to group successfully.";
+            $data->success->url = URL::to("setting/groups");
+            return Response::json($data);
+        }
+        
+        
+        //TODO: need implement cannot find group case
+        return null;
+    }
+
+
     public function getObjects() {
         
     }

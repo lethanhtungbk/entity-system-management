@@ -10,10 +10,23 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">Name</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" ng-model="group.name">                                
+                        <input type="text" class="form-control" ng-model="group.name" ng-keyup="onKeyUp()">                                
                     </div>
                 </div>
-            </div>    
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Link</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" ng-model="group.link">                                
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Icon</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" ng-model="group.icon">                                
+                    </div>
+                </div>
+            </div> 
+            
             <div class="form-actions">
                 <div class="col-md-offset-3 col-md-9">      
                     <input type="hidden" value="{{$templateData->id}}" id="id"/>

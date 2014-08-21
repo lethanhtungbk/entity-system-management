@@ -4,7 +4,14 @@ emsApp.service('groupService', function(baseService) {
         getGroups: getGroups,
         saveGroup : saveGroup,
         getGroup : getGroup,
+        getGroupFields : getGroupFields,
+        saveGroupFields : saveGroupFields,
     });
+    
+    function getGroupFields(data)
+    {
+        return baseService.postData(data,"group-fields");   
+    }
     
     function getGroups()
     {
@@ -18,6 +25,11 @@ emsApp.service('groupService', function(baseService) {
     
     function saveGroup(data)
     {
-        return baseService.postData(data,"groups/save");
+        return baseService.postData(data,"group/save");
+    }
+    
+    function saveGroupFields(data)
+    {
+        return baseService.postData(data,"group-fields/save");
     }
 });

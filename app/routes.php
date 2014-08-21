@@ -43,7 +43,9 @@ foreach (RouteManager::getRoute() as $route)
 Route::get('/', function() {
     //$page = test();
     //return View::make('page.page-index', array('pageData' => $page));
-    return View::make('test.index');
+    //return View::make('test.index');
+    
+    //var_dump(Frenzycode\Models\Group::getFields(2));
 });
 //  
 //Route::get('test1',function(){

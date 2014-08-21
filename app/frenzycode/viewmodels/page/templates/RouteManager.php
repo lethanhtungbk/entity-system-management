@@ -23,8 +23,11 @@ class RouteManager {
             array("url" => "restapi/field-save" , "handle" => "RestController@fieldSave" , "type" => "post"),                
             
             array("url" => "restapi/groups" , "handle" => "RestController@getGroups" , "type" => "post"),                
-            array("url" => "restapi/group" , "handle" => "RestController@getGroup" , "type" => "post"),                
-            array("url" => "restapi/groups/save" , "handle" => "RestController@saveGroup" , "type" => "post"),                
+            array("url" => "restapi/group" , "handle" => "RestController@getGroup" , "type" => "post"),  
+            array("url" => "restapi/group/save" , "handle" => "RestController@saveGroup" , "type" => "post"),                
+            array("url" => "restapi/group-fields" , "handle" => "RestController@getGroupFields" , "type" => "post"),  
+            array("url" => "restapi/group-fields/save" , "handle" => "RestController@saveGroupFields" , "type" => "post"),  
+            
 //            array("url" => "restapi/field-save" , "handle" => "RestController@fieldSave" , "type" => "post"),                
         );
     }

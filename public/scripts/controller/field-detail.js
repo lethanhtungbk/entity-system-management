@@ -65,7 +65,6 @@ emsApp.controller('FieldDetailController', function($scope, fieldService)
     $scope.onSubmit = function() {
         if ($scope.validate())
         {
-           
             var requestData = {
                 action: $('#fieldAction').val(),
                 id : $('#fieldId').val(),

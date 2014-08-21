@@ -13,8 +13,11 @@ class GroupController extends BaseController {
         return View::make('page.page-index', array('pageData' => $pageData));
     }
 
-    public function assignGroup() {
-        $pageData = PageFactory::getPage('group-assign');
+    public function assignGroup($id) {
+        $templateData = new stdClass();
+        $templateData->action = "update-fields";
+        $templateData->id = $id;
+        $pageData = PageFactory::getPage('group-assign',$templateData);
         return View::make('page.page-index', array('pageData' => $pageData));
     }
 

@@ -38,6 +38,14 @@ class CreateDefaultDatabase extends Migration {
         Schema::create('groups', function($table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('link');
+            $table->string('icon');
+        });
+        
+        Schema::create('group-fields', function($table) {
+            $table->increments('id');
+            $table->string('group_id');
+            $table->string('field_id');
         });
     }
 
@@ -51,6 +59,7 @@ class CreateDefaultDatabase extends Migration {
         Schema::dropIfExists('fields');
         Schema::dropIfExists('field_define_values');
         Schema::dropIfExists('groups');
+        Schema::dropIfExists('group-fields');
     }
 
 }

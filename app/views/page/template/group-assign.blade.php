@@ -4,13 +4,13 @@
             Group Assign                    
         </div>        
     </div>
-    <div class="portlet-body form" ng-controller="GroupAssignController">
+    <div class="portlet-body form" ng-controller="GroupController" ng-init="getGroupFields()">
         <form action="#" class="form-horizontal">
             <div class="form-body">
                 <div class="form-group">
                     <label class="col-md-3 control-label">Group</label>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" value="Object 1" readonly="true">                                
+                        <input type="text" class="form-control" ng-model="group.name" readonly="true">                                
                     </div>
                 </div>                        
                 <div class="form-group">
@@ -35,11 +35,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="assignField in assignFields">                   
+                                <tr ng-repeat="assignField in group.fields">                   
                                     <td>
                                         @{{assignField.name}}
                                     </td>
-
                                     <td>
                                         <div class="btn-group pull-right">
                                             <a class="btn blue"><i class="fa fa-share-alt"></i></a>
@@ -54,8 +53,10 @@
             </div>
             <div class="form-actions">
                 <div class="col-md-offset-3 col-md-9">
-                    <button type="submit" class="btn green">Submit</button>
-                    <button type="button" class="btn default">Cancel</button>
+                    <input type="hidden" value="{{$templateData->id}}" id="id"/>
+                    <input type="hidden" value="{{$templateData->action}}" id="action"/>
+                    <a class="btn blue" ng-click="onAssignSubmit()"><i class="fa fa-save"></i> Save</a>                        
+                    <a class="btn default" href="{{URL::to('setting/groups')}}">Cancel</a> 
                 </div>
             </div>
         </form>

@@ -9,6 +9,7 @@ use Request;
 use Frenzycode\ViewModels\Page\Templates\RouteManager;
 use Log;
 use URL;
+use Frenzycode\Models\Group;
 
 class PageFactory {
 
@@ -74,14 +75,13 @@ class PageFactory {
                 self::addSubMenu($menuItem, $menu['children'], $activeLink);
             }
         }
-
-        //generateMenu
-
-
-        $pageData->body->addMenuItem(new MenuItem(array('icon' => 'icon-home', 'title' => 'Student', 'link' => 'entities/student')));
-        $pageData->body->addMenuItem(new MenuItem(array('icon' => 'icon-home', 'title' => 'Class', 'link' => 'entities/class')));
-        $pageData->body->addMenuItem(new MenuItem(array('icon' => 'icon-home', 'title' => 'Subject', 'link' => 'entities/subject')));
-        $pageData->body->addMenuItem(new MenuItem(array('icon' => 'icon-home', 'title' => 'Mark', 'link' => 'entities/mark')));
+        
+        $groups = Group::getGroups();
+        foreach ($groups as $group)
+        {
+            $pageData->body->addMenuItem(new MenuItem(array('title' => $group->name,'link' => 'entities/'.$group->link,'icon' => $group->icon)));
+        }
+        
         
     }
 
@@ -145,7 +145,9 @@ class PageFactory {
 
         $pageData->addScript('scripts/angular.min.js');
         $pageData->addScript('scripts/ems.js');
-        $pageData->addScript('scripts/controller/group-assign.js');
+        $pageData->addScript('scripts/service/base-service.js');
+        $pageData->addScript('scripts/service/group-service.js');
+        $pageData->addScript('scripts/controller/groups.js');
         return $pageData;
     }
     
