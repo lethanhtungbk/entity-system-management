@@ -13,7 +13,7 @@ class RestController extends BaseController {
     }
 
     public function getField() {
-        $fieldId = InputHelper::getInput('fieldId', Input::all());
+        $fieldId = InputHelper::getInput('id', Input::all());
         $field = ($fieldId == "") ? new Field() : Field::getField($fieldId);
         $data = new stdClass();
         $data->field = $field;
@@ -102,21 +102,7 @@ class RestController extends BaseController {
             $data = new stdClass();
             $group->getFields();
             $data->group = $group;
-            
-            $fields = Field::getFields();
-            //all fields assinged to group
-            foreach ($group->fields as $assignField)
-            {
-                foreach ($fields as $index => $field)
-                {
-                    if ($field->id == $assignField->id)
-                    {
-                        unset($fields[$index]);
-                    }
-                }
-            }
-            $data->fields = array_values($fields);
-            
+            $data->fields = Group::getFreeFields();
             return Response::json($data);
         }
         //TODO: need implement cannot find group case
@@ -126,19 +112,22 @@ class RestController extends BaseController {
     public function saveGroupFields()
     {
         $input = Input::all();
-        //$id = InputHelper::getInput('id', Input::all());
         
         $data = json_decode(InputHelper::getInput('data', $input));
         $action = InputHelper::getInput('action', $input);
         $group = FrenzyHelper::cast('Frenzycode\Models\Group', $data);
-        
+        Illuminate\Support\Facades\Log::error($group->fields);
+                
         if ($action == 'update-fields') {
             $group->saveFields();
             $data = new stdClass();
             $data->success = new stdClass();
             $data->success->message = "Assign fields to group successfully.";
-            $data->success->url = URL::to("setting/groups");
             return Response::json($data);
+        }
+        else
+        {
+            
         }
         
         

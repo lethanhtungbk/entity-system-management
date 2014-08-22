@@ -20,7 +20,7 @@ class RouteManager {
             
             array("url" => "restapi/fields" , "handle" => "RestController@getFields" , "type" => "post"),                
             array("url" => "restapi/field" , "handle" => "RestController@getField" , "type" => "post"),                
-            array("url" => "restapi/field-save" , "handle" => "RestController@fieldSave" , "type" => "post"),                
+            array("url" => "restapi/field/save" , "handle" => "RestController@fieldSave" , "type" => "post"),                
             
             array("url" => "restapi/groups" , "handle" => "RestController@getGroups" , "type" => "post"),                
             array("url" => "restapi/group" , "handle" => "RestController@getGroup" , "type" => "post"),  

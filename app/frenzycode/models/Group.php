@@ -51,37 +51,63 @@ class Group {
 
     public function getFields() {
         $fieldsdb = DB::table('group-fields')
-                        ->join('fields', 'group-fields.field_id', '=', 'fields.id')
-                        ->where('group-fields.id', '=', $this->id)
-                        ->select('fields.id', 'fields.name')->get();
-
+                        ->leftJoin('fields', 'group-fields.field_id', '=', 'fields.id')
+                        ->where('group-fields.group_id', '=', $this->id)
+                        ->select('group-fields.group_id', 'fields.id', 'fields.name')->get();
         $groupFields = array();
         foreach ($fieldsdb as $fielddb) {
-            $group = FrenzyHelper::cast('Frenzycode\Models\Field', $fielddb);
-            array_push($groupFields, $group);
+            array_push($groupFields, FrenzyHelper::cast('Frenzycode\Models\Field', $fielddb));
         }
         $this->fields = $groupFields;
+    }
+
+    public static function getFreeFields() {
+        $usedFields = DB::table('group-fields')->select('field_id')->get();
+
+        $idArr = array();
+        foreach ($usedFields as $field) {
+            array_push($idArr, $field->field_id);
+        }
+        $freeFielddbs = DB::table('fields')->whereNotIn('id', $idArr)->select('id', 'name')->get();
+        $freeFields = array();
+        foreach ($freeFielddbs as $field) {
+            array_push($freeFields, FrenzyHelper::cast('Frenzycode\Models\Field', $field));
+        }
+        return $freeFields;
+    }
+
+    private function findIdInArray($id, $array) {
+        $hasFound = false;
+        foreach ($array as $item) {
+            if ($item->id == $id) {
+                $hasFound = true;
+                break;
+            }
+        }
+        return $hasFound;
     }
 
     public function saveFields() {
         $assignFields = $this->fields;
         $this->getFields();
-
-        $unAssignFields = array_diff($assignFields, $this->fields);
-        $newAssignFields = array_diff($this->fields, $assignFields);
-
-        foreach ($unAssignFields as $field) {
-            DB::table('group-fields')
-                    ->where('group_id', '=', $this->id)
-                    ->where('field_id', '=', $field->id)
-                    ->delete();
+        //find new field assign
+        foreach ($assignFields as $assignField) {
+            $hasFound = $this->findIdInArray($assignField->id, $this->fields);
+            if (!$hasFound) {
+                DB::table('group-fields')->insert(
+                        array('group_id' => $this->id, 'field_id' => $assignField->id,)
+                );
+            }
         }
-
-        foreach ($newAssignFields as $field) {
-            DB::table('group-fields')->insert(
-                    array('group_id' => $this->id, 'field_id' => $field->id,)
-            );
+        //remove old assign fields        
+        foreach ($this->fields as $field) {
+            $hasFound = $this->findIdInArray($field->id, $assignFields);
+            if (!$hasFound) {
+                DB::table('group-fields')
+                        ->where('group_id', '=', $this->id)
+                        ->where('field_id', '=', $field->id)
+                        ->delete();
+            }
         }
     }
-
 }

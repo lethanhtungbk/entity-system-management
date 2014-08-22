@@ -4,7 +4,7 @@
             Add field                      
         </div>        
     </div>
-    <div class="portlet-body form" ng-controller="FieldDetailController">
+    <div class="portlet-body form" ng-controller="FieldController" ng-init="getField()">
         <div class="form-horizontal">
             <div class="form-body">
                 <div class="form-group">
@@ -68,8 +68,8 @@
             </div>
             <div class="form-actions">
                 <div class="col-md-offset-3 col-md-9">      
-                    <input type="hidden" value="{{$templateData->id}}" id="fieldId"/>
-                    <input type="hidden" value="{{$templateData->action}}" id="fieldAction"/>
+                    <input type="hidden" value="{{$templateData->id}}" id="id"/>
+                    <input type="hidden" value="{{$templateData->action}}" id="action"/>
                     <a class="btn blue" ng-click="onSubmit()"><i class="fa fa-save"></i> Save</a>                        
                     <button type="button" class="btn default">Cancel</button>
                 </div>

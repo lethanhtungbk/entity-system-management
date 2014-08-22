@@ -42,7 +42,10 @@ emsApp.controller("GroupController", function($scope, groupService)
                 if (data.success !== undefined)
                 {
                     alert(data.success.message);
-                    window.location = data.success.url;
+                    if (data.success.url !== undefined)
+                    {
+                        window.location = data.success.url;
+                    }
                 }
             });
         }
@@ -63,7 +66,10 @@ emsApp.controller("GroupController", function($scope, groupService)
                 if (data.success !== undefined)
                 {
                     alert(data.success.message);
-                    window.location = data.success.url;
+                    if (data.success.url !== undefined)
+                    {
+                        window.location = data.success.url;
+                    }
                 }
             });
         }

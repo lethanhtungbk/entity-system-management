@@ -95,7 +95,10 @@ class PageFactory {
         $pageData->body->templateData = $data;
 
         $pageData->addScript('scripts/angular.min.js');
+        $pageData->addScript('scripts/library/library.js');
         $pageData->addScript('scripts/ems.js');
+        $pageData->addScript('scripts/service/base-service.js');
+        $pageData->addScript('scripts/service/field-service.js');
         $pageData->addScript('scripts/controller/fields.js');
         return $pageData;
     }
@@ -111,8 +114,11 @@ class PageFactory {
         $pageData->body->templateData = $data;
 
         $pageData->addScript('scripts/angular.min.js');
+        $pageData->addScript('scripts/library/library.js');
         $pageData->addScript('scripts/ems.js');
-        $pageData->addScript('scripts/controller/field-detail.js');
+        $pageData->addScript('scripts/service/base-service.js');
+        $pageData->addScript('scripts/service/field-service.js');
+        $pageData->addScript('scripts/controller/fields.js');
         return $pageData;
     }
 
@@ -126,6 +132,7 @@ class PageFactory {
         $pageData->body->templateData = $data;
 
         $pageData->addScript('scripts/angular.min.js');
+        $pageData->addScript('scripts/library/library.js');
         $pageData->addScript('scripts/ems.js');
         $pageData->addScript('scripts/service/base-service.js');
         $pageData->addScript('scripts/service/group-service.js');
@@ -144,6 +151,7 @@ class PageFactory {
         $pageData->body->templateData = $data;
 
         $pageData->addScript('scripts/angular.min.js');
+        $pageData->addScript('scripts/library/library.js');
         $pageData->addScript('scripts/ems.js');
         $pageData->addScript('scripts/service/base-service.js');
         $pageData->addScript('scripts/service/group-service.js');
@@ -163,6 +171,7 @@ class PageFactory {
         $pageData->body->templateData = $data;
 
         $pageData->addScript('scripts/angular.min.js');
+        $pageData->addScript('scripts/library/library.js');
         $pageData->addScript('scripts/ems.js');
         $pageData->addScript('scripts/service/base-service.js');
         $pageData->addScript('scripts/service/group-service.js');

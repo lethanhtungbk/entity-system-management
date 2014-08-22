@@ -46,6 +46,10 @@ Route::get('/', function() {
     //return View::make('test.index');
     
     //var_dump(Frenzycode\Models\Group::getFields(2));
+    $group = new \Frenzycode\Models\Group();
+    $group->id = 1;
+    $group->getFields();
+    var_dump($group);
 });
 //  
 //Route::get('test1',function(){

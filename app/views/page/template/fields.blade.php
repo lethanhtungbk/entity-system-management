@@ -4,7 +4,7 @@
             Fields                      
         </div>        
     </div>
-    <div class="portlet-body" ng-controller="FieldController">
+    <div class="portlet-body" ng-controller="FieldController" ng-init="getFields()">
         <div class="row">
             <div class="col-md-12">                
                 <div class="btn-group tabletools-btn-group pull-left">
