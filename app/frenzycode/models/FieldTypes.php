@@ -5,4 +5,5 @@ use Eloquent;
 class FieldTypes extends Eloquent
 {
     protected $table = 'field_types';
+    
 }

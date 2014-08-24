@@ -1,16 +1,11 @@
 <?php
 
-use Frenzycode\Models\Groups;
-use Frenzycode\Models\Fields;
-use Frenzycode\ViewModels\Page\Templates\FieldPage;
-use Frenzycode\Libraries\InputHelper;
-
-use Frenzycode\ViewModels\Page\Templates\PageFactory;
+use Frenzycode\Models\PageModel;
 
 class FieldController extends BaseController {
 
     public function getFields() {
-        $pageData = PageFactory::getPage('fields');
+        $pageData = $this->pageModel->createPage(PageModel::PAGE_FIELDS);
         return View::make('page.page-index',array('pageData' => $pageData));
     }
 
@@ -18,7 +13,7 @@ class FieldController extends BaseController {
         $templateData = new stdClass();
         $templateData->action = "add";
         $templateData->id = null;
-        $pageData = PageFactory::getPage('field-add',$templateData);
+        $pageData = $this->pageModel->createPage(PageModel::PAGE_FIELD_ADD,$templateData);
         return View::make('page.page-index',array('pageData' => $pageData));
     }
 
@@ -26,29 +21,7 @@ class FieldController extends BaseController {
         $templateData = new stdClass();
         $templateData->action = "update";
         $templateData->id = $id;
-        $pageData = PageFactory::getPage('field-add',$templateData);
+        $pageData = $this->pageModel->createPage(PageModel::PAGE_FIELD_EDIT,$templateData);
         return View::make('page.page-index',array('pageData' => $pageData));
     }
-
-    public function saveField() {
-
-        $input = Input::all();
-        $field = new Fields();
-        $field->name = InputHelper::getInput('name', $input);
-        $field->value_type = InputHelper::getInput('value_type', $input);
-        $field->display_type = InputHelper::getInput('display_type', $input);
-        $field->assign_type = InputHelper::getInput('assign_type', $input);
-
-        $field->depend_on_objects = implode(InputHelper::DELIMITER, InputHelper::getInput('depend_on_objects', $input, array()));
-        $field->depend_on_fields = implode(InputHelper::DELIMITER, InputHelper::getInput('depend_on_fields', $input, array()));
-
-        $field->save();
-
-        return Redirect::to('/fields')->with('success', 'Field <b>added</b>!');
-    }
-
-    public function removeField() {
-        
-    }
-
 }

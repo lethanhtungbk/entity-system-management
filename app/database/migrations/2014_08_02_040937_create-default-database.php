@@ -11,7 +11,9 @@ class CreateDefaultDatabase extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('field_types', function($table) {
+        $this->down();
+        
+        Schema::create('field_types', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->integer('groupId')->default(1);
@@ -19,7 +21,7 @@ class CreateDefaultDatabase extends Migration {
             $table->string('display');
         });
         
-        Schema::create('fields', function($table) {
+        Schema::create('fields', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->integer('field_type_id')->default(0);
@@ -28,24 +30,37 @@ class CreateDefaultDatabase extends Migration {
             $table->integer('attribute_id')->default(0);
         });
         
-        Schema::create('field_define_values',function($table) {
+        Schema::create('field_define_values',function(Blueprint $table) {
             $table->increments('id');
             $table->integer('field_id');
-            $table->string('value');
+                $table->string('value');
             $table->integer('ordering');
         });
         
-        Schema::create('groups', function($table) {
+        Schema::create('groups', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('link');
             $table->string('icon');
         });
         
-        Schema::create('group-fields', function($table) {
+        Schema::create('group_fields', function(Blueprint $table) {
             $table->increments('id');
             $table->string('group_id');
             $table->string('field_id');
+        });
+        
+        Schema::create('entities', function(Blueprint $table) {
+            $table->increments('id');
+            $table->integer('group_id');
+            $table->string('name');
+        });
+        
+        Schema::create('entity_values',function(Blueprint $table) {
+            $table->increments('id');
+            $table->integer('entity_id');
+            $table->integer('field_id');
+            $table->string('value');
         });
     }
 
@@ -59,7 +74,9 @@ class CreateDefaultDatabase extends Migration {
         Schema::dropIfExists('fields');
         Schema::dropIfExists('field_define_values');
         Schema::dropIfExists('groups');
-        Schema::dropIfExists('group-fields');
+        Schema::dropIfExists('group_fields');
+        Schema::dropIfExists('entities');
+        Schema::dropIfExists('entity_values');
     }
 
 }

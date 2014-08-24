@@ -7,9 +7,9 @@ use Frenzycode\Libraries\FrenzyHelper;
 
 class Group {
 
-    public $name;
-    public $icon;
-    public $link;
+    public $name = '';
+    public $icon = '';
+    public $link = '';
     public $id;
     public $fields;
 
@@ -48,21 +48,37 @@ class Group {
         }
         return null;
     }
-
+    
+    public static function getGroupByLink($link)
+    {
+        $groupdb = DB::table('groups')
+                        ->where('link', '=', $link)
+                        ->select('id', 'name', 'link', 'icon')->first();
+        if ($groupdb != null) {
+            $group = FrenzyHelper::cast('Frenzycode\Models\Group', $groupdb);
+            return $group;
+        }
+        return null;
+    }
+    
+    
+    
     public function getFields() {
-        $fieldsdb = DB::table('group-fields')
-                        ->leftJoin('fields', 'group-fields.field_id', '=', 'fields.id')
-                        ->where('group-fields.group_id', '=', $this->id)
-                        ->select('group-fields.group_id', 'fields.id', 'fields.name')->get();
+        $fieldsdb = DB::table('group_fields')
+                        ->leftJoin('fields', 'group_fields.field_id', '=', 'fields.id')
+                        ->where('group_fields.group_id', '=', $this->id)
+                        ->select('group_fields.group_id', 'fields.id', 'fields.name')->get();
         $groupFields = array();
         foreach ($fieldsdb as $fielddb) {
             array_push($groupFields, FrenzyHelper::cast('Frenzycode\Models\Field', $fielddb));
         }
         $this->fields = $groupFields;
     }
+    
+    
 
     public static function getFreeFields() {
-        $usedFields = DB::table('group-fields')->select('field_id')->get();
+        $usedFields = DB::table('group_fields')->select('field_id')->get();
 
         $idArr = array();
         foreach ($usedFields as $field) {
@@ -75,6 +91,8 @@ class Group {
         }
         return $freeFields;
     }
+    
+    
 
     private function findIdInArray($id, $array) {
         $hasFound = false;
@@ -94,7 +112,7 @@ class Group {
         foreach ($assignFields as $assignField) {
             $hasFound = $this->findIdInArray($assignField->id, $this->fields);
             if (!$hasFound) {
-                DB::table('group-fields')->insert(
+                DB::table('group_fields')->insert(
                         array('group_id' => $this->id, 'field_id' => $assignField->id,)
                 );
             }
@@ -103,7 +121,7 @@ class Group {
         foreach ($this->fields as $field) {
             $hasFound = $this->findIdInArray($field->id, $assignFields);
             if (!$hasFound) {
-                DB::table('group-fields')
+                DB::table('group_fields')
                         ->where('group_id', '=', $this->id)
                         ->where('field_id', '=', $field->id)
                         ->delete();

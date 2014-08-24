@@ -101,29 +101,24 @@ class Field {
     public function updateDefineValues() {
         if ($this->defineValues != null)
         {
-            Log::error("start updateDefineValues");
             $ordering = 1;
             foreach ($this->defineValues as $defineValue)
             {
                 $record = array("value" => $defineValue->value,"ordering" => $ordering,"field_id" => $this->id);
                 if ($defineValue->id == -1)
                 {
-                    Log::error("-1 case");
                     //create new one
                     if ($defineValue->value != "")
                     {
-                        Log::error("go");
                         DB::table('field_define_values')->insert($record);
                         $ordering++;
                     }
                 }
                 else
                 {
-                    Log::error("id case");
                     //update exist one
                     if ($defineValue->value != "")
                     {
-                        Log::error("111111111");
                         DB::table('field_define_values')->where('id','=',$defineValue->id)->update($record);
                         $ordering++;
                     }

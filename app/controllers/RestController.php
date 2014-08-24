@@ -4,6 +4,7 @@ use Frenzycode\Libraries\InputHelper;
 use Frenzycode\Libraries\FrenzyHelper;
 use Frenzycode\Models\Field;
 use Frenzycode\Models\Group;
+use Frenzycode\Models\Entity;
 
 class RestController extends BaseController {
 
@@ -26,7 +27,7 @@ class RestController extends BaseController {
         $input = Input::all();
         $data = json_decode(InputHelper::getInput('data', $input));
         $action = InputHelper::getInput('action', $input);
-        $field = FrenzyHelper::cast('Frenzycode\Models\Field', $data);        
+        $field = FrenzyHelper::cast('Frenzycode\Models\Field', $data);
         if ($action == 'add') {
             $field->save();
             $data = new stdClass();
@@ -50,13 +51,12 @@ class RestController extends BaseController {
             return Response::json($data);
         }
     }
-    
-    public function getGroups()
-    {
+
+    public function getGroups() {
         $groups = Group::getGroups();
         return Response::json($groups);
     }
-    
+
     public function getGroup() {
         $id = InputHelper::getInput('id', Input::all());
         $group = ($id == "") ? new Group() : Group::getGroup($id);
@@ -64,13 +64,12 @@ class RestController extends BaseController {
         $data->group = $group;
         return Response::json($data);
     }
-    
-    public function saveGroup()
-    {
+
+    public function saveGroup() {
         $input = Input::all();
         $data = json_decode(InputHelper::getInput('data', $input));
         $action = InputHelper::getInput('action', $input);
-        $group = FrenzyHelper::cast('Frenzycode\Models\Group', $data);        
+        $group = FrenzyHelper::cast('Frenzycode\Models\Group', $data);
         if ($action == 'add') {
             $group->save();
             $data = new stdClass();
@@ -92,13 +91,11 @@ class RestController extends BaseController {
             return Response::json($data);
         }
     }
-    
-    public function getGroupFields()
-    {
+
+    public function getGroupFields() {
         $id = InputHelper::getInput('id', Input::all());
         $group = Group::getGroup($id);
-        if ($group != null)
-        {
+        if ($group != null) {
             $data = new stdClass();
             $group->getFields();
             $data->group = $group;
@@ -108,40 +105,85 @@ class RestController extends BaseController {
         //TODO: need implement cannot find group case
         return null;
     }
-    
-    public function saveGroupFields()
-    {
+
+    public function saveGroupFields() {
         $input = Input::all();
-        
+
         $data = json_decode(InputHelper::getInput('data', $input));
         $action = InputHelper::getInput('action', $input);
         $group = FrenzyHelper::cast('Frenzycode\Models\Group', $data);
         Illuminate\Support\Facades\Log::error($group->fields);
-                
+
         if ($action == 'update-fields') {
             $group->saveFields();
             $data = new stdClass();
             $data->success = new stdClass();
             $data->success->message = "Assign fields to group successfully.";
             return Response::json($data);
-        }
-        else
-        {
+        } else {
             
         }
-        
-        
+
+
         //TODO: need implement cannot find group case
         return null;
     }
 
-
-    public function getObjects() {
-        
+    public function getAttributes() {
+        $id = InputHelper::getInput('group', Input::all());
+        $group = Group::getGroup($id);
+        if ($group != null) {
+            
+        } else {
+            //TODO: need implement cannot find group case
+        }
     }
 
-    public function getObjectFields() {
-        
+    public function getEntity() {
+        $input = Input::all();
+        $groupLink = InputHelper::getInput('link', $input);
+        $group = Group::getGroupByLink($groupLink);
+        if ($group != null) {
+            $entityId =InputHelper::getInput('id', $input);
+            if ($entityId == "")
+            {
+                //add new case
+                $entity = new Entity();
+            }
+            else
+            {
+                $entity = Entity::getEntity($entityId);
+            }
+            $data = new stdClass();
+            $data->fields = Entity::getEntityFields($group->id);
+            $data->entity = $entity;
+            $data->entity->groupId = $group->id;
+            return Response::json($data);
+        } else {
+            //TODO: need implement cannot find group case
+        }
+
+        $entityId = InputHelper::getInput('id', $input);
+
+        $test = new stdClass();
+        $test->id = $entityId;
+        $test->link = $groupLink;
+
+        return Response::json($test);
+    }
+
+    public function saveEntity() {
+        $input = Input::all();
+        $data = json_decode(InputHelper::getInput('data', $input));
+        $action = InputHelper::getInput('action', $input);
+        $entity = FrenzyHelper::cast('Frenzycode\Models\Entity', $data);        
+        if ($action == 'add') {
+            $entity->save();
+        } else if ($action == 'update') {
+            
+        } else {
+            
+        }
     }
 
 }
