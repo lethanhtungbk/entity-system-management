@@ -30,6 +30,13 @@ class EntityController extends BaseController{
     
     public function editEntity($link,$id)
     {
-        
+        $group = Group::getGroupByLink($link);
+        $templateData = new stdClass();
+        $templateData->action = "update";
+        $templateData->id = $id;
+        $templateData->portletTitle = $group->name;
+        $templateData->groupLink = $group->link;
+        $pageData = $this->pageModel->createPage(PageModel::PAGE_ENTITY_EDIT, $templateData);
+        return View::make('page.page-index',array('pageData' => $pageData));
     }
 }

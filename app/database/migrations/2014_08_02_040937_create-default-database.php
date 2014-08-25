@@ -56,7 +56,15 @@ class CreateDefaultDatabase extends Migration {
             $table->string('name');
         });
         
-        Schema::create('entity_values',function(Blueprint $table) {
+        Schema::create('entity_single_values',function(Blueprint $table) {
+            $table->increments('id');
+            $table->integer('entity_id');
+            $table->integer('field_id');
+            $table->string('value');
+        });
+        
+        
+        Schema::create('entity_multi_values',function(Blueprint $table) {
             $table->increments('id');
             $table->integer('entity_id');
             $table->integer('field_id');
@@ -76,7 +84,8 @@ class CreateDefaultDatabase extends Migration {
         Schema::dropIfExists('groups');
         Schema::dropIfExists('group_fields');
         Schema::dropIfExists('entities');
-        Schema::dropIfExists('entity_values');
+        Schema::dropIfExists('entity_single_values');
+        Schema::dropIfExists('entity_multi_values');
     }
 
 }

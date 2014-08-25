@@ -45,7 +45,7 @@ class Field {
                         ->join('field_types', 'fields.field_type_id', '=', 'field_types.id')
                         ->select("fields.id", "fields.name", "field_types.name as field_type")->get();
     }
-
+    
     public static function getField($id) {
         $fielddb = DB::table('fields')
                         ->where('id', '=', $id)

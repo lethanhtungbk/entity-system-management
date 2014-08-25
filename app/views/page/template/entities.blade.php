@@ -4,7 +4,7 @@
             {{$templateData->portletTitle}}                      
         </div>        
     </div>
-    <div class="portlet-body" ng-controller="EntityController" ng-init="getEntity()">
+    <div class="portlet-body" ng-controller="EntityController" ng-init="getEntities()">
         <div class="row">
             <div class="col-md-12">
                 <div class="btn-group tabletools-btn-group pull-right">
@@ -13,29 +13,44 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4 form-group" ng-repeat="filter in filters">
-                <label>@{{filter.name}}</label> 
-                <input type="text" class="form-control" ng-if="filter.groupId == 1" ng-model="filter.value"/>
-                <select class="form-control"  
-                        ng-model="filter.selected" 
-                        ng-options="item.name for item in filter.value" ng-if="filter.groupId == 2"></select>
-                <select class="form-control"  
-                        multiple="true"
-                        ng-model="filter.selected" 
-                        ng-options="item.name for item in filter.value" ng-if="filter.groupId == 3"></select>
+        <div class="portlet solid grey-cararra" style="border: 1px solid #ddd">
+            
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-4 form-group" ng-if="hasTextSearch">
+                        <label>Search</label>                         
+                        <input type="text" class="form-control" ng-model="textSearch" placeholder="Search.."/>
+                    </div>
+                    <div class="col-md-4 form-group" ng-repeat="field in fields">
+                        <label>@{{field.name}}</label>                         
+                        <select class="form-control"  
+                                ng-model="field.selected" 
+                                ng-options="item.value for item in field.defineValues" ng-if="field.fieldValueType == 2"></select>
+                        <select class="form-control"  
+                                multiple="true"
+                                ng-model="field.selected" 
+                                ng-options="item.value for item in field.defineValues" ng-if="field.fieldValueType == 3"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="btn-group tabletools-btn-group pull-right">
+                            <a ng-click="search()" class="btn blue"><i class="fa fa-search"></i> Search</a>
+                            <input type="hidden" value="{{$templateData->groupLink}}" id="link"/>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+
         <table class="table table-bordered">
             <thead>
                 <tr>                    
-                    <th width="60%">
-                        Group
-                    </th>
-                    <th >
-                        Fields
-                    </th>
-                    <th width='155px !important'>
+                    <th>
+                        Entities
+                    </th>                    
+                    <th width='105px !important'>
                         Actions
                     </th>                    
                 </tr>
@@ -43,23 +58,23 @@
             <tbody>
                 <tr>                   
                     <td>
-                        <input type="text" class="form-control" placeholder="Search group.." ng-model="searchGroup"/>
-                    </td>
-                    <td>
-                        <select class="form-control" ></select>
-                    </td>
+                        <input type="text" class="form-control" placeholder="Quick search.." ng-model="searchEntity"/>
+                    </td>                    
                     <td>
 
                     </td>                    
                 </tr>                                   
+                <tr ng-repeat="entity in entities|filter:{name:searchEntity}">
+                    <td>@{{entity.name}}</td>
+                    <td>
+                        <div class="btn-group tabletools-btn-group pull-right">
+                            <a ng-href="{{URL::to('/entities/'.$templateData->groupLink.'/edit/')}}/@{{entity.id}}" class="btn blue"><i class="fa fa-edit"></i></a>
+                            <a ng-click="onRemove($index)" class="btn red-flamingo"><i class="fa fa-minus"></i></a>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="btn-group tabletools-btn-group pull-right">
-                    <a ng-click="search()" class="btn blue"><i class="fa fa-search"></i> Search</a>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>

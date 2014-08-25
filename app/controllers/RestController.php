@@ -144,14 +144,11 @@ class RestController extends BaseController {
         $groupLink = InputHelper::getInput('link', $input);
         $group = Group::getGroupByLink($groupLink);
         if ($group != null) {
-            $entityId =InputHelper::getInput('id', $input);
-            if ($entityId == "")
-            {
+            $entityId = InputHelper::getInput('id', $input);
+            if ($entityId == "") {
                 //add new case
                 $entity = new Entity();
-            }
-            else
-            {
+            } else {
                 $entity = Entity::getEntity($entityId);
             }
             $data = new stdClass();
@@ -176,13 +173,39 @@ class RestController extends BaseController {
         $input = Input::all();
         $data = json_decode(InputHelper::getInput('data', $input));
         $action = InputHelper::getInput('action', $input);
-        $entity = FrenzyHelper::cast('Frenzycode\Models\Entity', $data);        
+        $entity = FrenzyHelper::cast('Frenzycode\Models\Entity', $data);
         if ($action == 'add') {
             $entity->save();
+            $data = new stdClass();
+            $data->success = new stdClass();
+            $data->success->message = "Entity added successfully.";
+            $data->success->url = URL::to("setting/groups");
+            return Response::json($data);
         } else if ($action == 'update') {
-            
+            $entity->update();
+            $data = new stdClass();
+            $data->success = new stdClass();
+            $data->success->message = "Entity updated successfully.";
+            return Response::json($data);
         } else {
             
+        }
+    }
+
+    public function getEntities() {
+        $input = Input::all();
+        $groupLink = InputHelper::getInput('link', $input);
+        $group = Group::getGroupByLink($groupLink);
+        if ($group != null) {
+            $entities = Entity::getEntities($group->id);
+            
+            $data = new stdClass();
+            $data->entities = $entities;
+            $data->hasTextSearch = false;
+            $data->fields = Entity::getEntitiesFieldsForSearch($group->id,$data->hasTextSearch);
+            return Response::json($data);
+        } else {
+            //TODO: need implement cannot find group case
         }
     }
 

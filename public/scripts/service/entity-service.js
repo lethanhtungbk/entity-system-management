@@ -3,7 +3,9 @@ emsApp.service('entityService', function(baseService) {
     return ({
         getAttributes : getAttributes,
         getEntity : getEntity,
-        saveEntity : saveEntity
+        saveEntity : saveEntity,
+        getEntities : getEntities,
+        searchEntities : searchEntities
     });
     
     function getAttributes(data)
@@ -19,6 +21,16 @@ emsApp.service('entityService', function(baseService) {
     function saveEntity(data)
     {
         return baseService.postData(data,"entity/save");
+    }
+    
+    function getEntities(data)
+    {
+        return baseService.postData(data,"entities");
+    }
+    
+    function searchEntities(data)
+    {
+        return baseService.postData(data,"entities/search");
     }
     
 });
