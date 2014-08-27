@@ -109,19 +109,45 @@ class Entity {
         DB::table('entities')->where('id', '=', $this->id)->update($record);
         $this->updateEntityValue();
     }
-    
-    public static function getEntitiesFieldsForSearch($groupId,&$hasTextSearch)
-    {
-        $fields = self::getEntityFields($groupId);        
-        foreach ($fields as $index => $field)
-        {
-            if ($field->fieldValueType == 1)
-            {
+
+    public static function getEntitiesFieldsForSearch($groupId, &$hasTextSearch) {
+        $fields = self::getEntityFields($groupId);
+        foreach ($fields as $index => $field) {
+            if ($field->fieldValueType == 1) {
                 $hasTextSearch = true;
                 unset($fields[$index]);
+            } else if ($field->fieldValueType == 2) {
+                //add no selected
+                array_unshift($field->defineValues, array("id" => 0, "value" => "-- Select --"));
             }
-        }        
-        $fields = array_values($fields);        
+        }
+        $fields = array_values($fields);
         return $fields;
     }
+
+    public static function searchEntities($groupId, $searchFields, $textsearch) {
+        $entities = array();
+
+
+        return $entities;
+    }
+
+    public static function testSearch() {
+        $entities = array();
+
+        $singleSearch = array(
+            array("field_id" => 107, "value" => 1),
+            array("field_id" => 108, "value" => 5),
+        );
+
+        $query = DB::table("entities")
+                ->join("entity_single_values", "entities.id", "=", 'entity_single_values.entity_id');
+        
+        
+        
+        $entities = $query->select("entities.id")->get();
+        
+        return $entities;
+    }
+
 }

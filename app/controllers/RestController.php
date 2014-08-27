@@ -208,5 +208,19 @@ class RestController extends BaseController {
             //TODO: need implement cannot find group case
         }
     }
+    
+    public function searchEntities()
+    {
+        $input = Input::all();
+        $groupLink = InputHelper::getInput('link', $input);
+        $group = Group::getGroupByLink($groupLink);
+        if ($group != null) {
+            $searchFields = InputHelper::getInput('fields',$input);
+            $entities = Entity::searchEntities($group->id, $searchFields, "");
+            return Response::json($entities);
+        } else {
+            //TODO: need implement cannot find group case
+        }
+    }
 
 }

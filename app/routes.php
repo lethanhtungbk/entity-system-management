@@ -23,7 +23,8 @@ foreach (URLModel::$httpPost as $route) {
 Route::get('/', function() {
     $test = true;
     //var_dump(\Frenzycode\Models\Entity::getEntityFields(5));
-    var_dump(\Frenzycode\Models\Entity::getEntitiesFieldsForSearch(5,$test));
+    //var_dump(\Frenzycode\Models\Entity::getEntitiesFieldsForSearch(5,$test));
+    var_dump(\Frenzycode\Models\Entity::testSearch());
    
 });
 

@@ -1,7 +1,8 @@
 <div class="portlet box blue" ng-app="emsApp">
     <div class="portlet-title">
         <div class="caption">
-            {{$templateData->portletTitle}}                      
+            {{$templateData->portletTitle}}   
+            
         </div>        
     </div>
     <div class="portlet-body" ng-controller="EntityController" ng-init="getEntities()">
@@ -19,7 +20,7 @@
                 <div class="row">
                     <div class="col-md-4 form-group" ng-if="hasTextSearch">
                         <label>Search</label>                         
-                        <input type="text" class="form-control" ng-model="textSearch" placeholder="Search.."/>
+                        <input type="text" class="form-control" ng-model="textSearch"/>
                     </div>
                     <div class="col-md-4 form-group" ng-repeat="field in fields">
                         <label>@{{field.name}}</label>                         

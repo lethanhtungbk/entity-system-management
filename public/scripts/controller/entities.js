@@ -1,56 +1,46 @@
 emsApp.controller("EntityController", function($scope, entityService)
-{
-    $scope.filters = [
-        {name: "Test Name", groupId: 1, value: "samevalue"},
-        {name: "Drop down", groupId: 2, value: [
-                {id: "1", name: "select 1"},
-                {id: "2", name: "select 2"},
-                {id: "3", name: "select 3"},
-                {id: "4", name: "select 4"},
-            ]},
-        {name: "List", groupId: 3, value: [
-                {id: "1", name: "select 1"},
-                {id: "2", name: "select 2"},
-                {id: "3", name: "select 3"},
-                {id: "4", name: "select 4"},
-            ]},
-    ];
+{   
+    $scope.search = function()
+    {
+      
+        if ($scope.fields !== undefined)
+        {
+            var data = {};
+            data.fields = [];
+            for (var i = 0; i < $scope.fields.length; i++)
+            {
+                var field = $scope.fields[i];
+                if (field.selected !== undefined)
+                {
+                    data.fields.push({fieldId: field.id, selected: field.selected,fieldValueType:field.fieldValueType});
+                }
+            }
 
-    $scope.search = function() {
-        console.log($scope.filters);
-    }
+            data.link = $('#link').val();
+            console.log(data);
+            entityService.searchEntities(data).then(function(data) {
+                console.log(data);
+                $scope.entities = data.entities;                
+            });
+        }
+    };
 
 
-    $scope.attributes = [
-        {id: 1, name: 'Textedit', display: 'textedit'},
-        {id: 2, name: 'Textarea', display: 'textarea'},
-        {id: 3, name: 'Dropdown', values: [
-                {id: 1, value: 'Option 1'},
-                {id: 2, value: 'Option 2'},
-                {id: 3, value: 'Option 3'},
-                {id: 4, value: 'Option 4'}
-            ], display: 'dropdown'},
-        {id: 4, name: 'Listbox', values: [
-                {id: 1, value: 'Option 1'},
-                {id: 2, value: 'Option 2'},
-                {id: 3, value: 'Option 3'},
-                {id: 4, value: 'Option 4'}
-            ], display: 'listbox'},
-    ];
-    
-    
-    $scope.getEntities = function () {
-         var requestData = {
-                link: $('#link').val(),
-            };
+
+
+
+    $scope.getEntities = function() {
+        var requestData = {
+            link: $('#link').val(),
+        };
         entityService.getEntities(requestData).then(function(data) {
             console.log(data);
-            $scope.entities = data.entities;  
+            $scope.entities = data.entities;
             $scope.fields = data.fields;
             $scope.hasTextSearch = data.hasTextSearch;
         });
-    }
-    
+    };
+
     $scope.getEntity = function() {
         var requestData = {id: $('#id').val(), link: $('#link').val()};
         entityService.getEntity(requestData).then(function(data) {
@@ -76,7 +66,7 @@ emsApp.controller("EntityController", function($scope, entityService)
                             break;
                         case 3:
                             field.selected = [];
-                            
+
                             for (var j = 0; j < fieldValue.value.length; j++)
                             {
                                 var id = fieldValue.value[j];
@@ -96,9 +86,9 @@ emsApp.controller("EntityController", function($scope, entityService)
     $scope.validate = function() {
         return true;
     };
-    
-    
-    
+
+
+
     $scope.getSelectedValue = function(selected) {
         var selectedType = Object.prototype.toString.call(selected).split(/\W/)[2];
         switch (selectedType)
@@ -125,24 +115,24 @@ emsApp.controller("EntityController", function($scope, entityService)
         {
             $scope.entity.fieldValues = [];
         }
-        
-        for (var i=0;i<$scope.fields.length;i++)
+
+        for (var i = 0; i < $scope.fields.length; i++)
         {
             var field = $scope.fields[i];
-            
+
             if (field.selected !== undefined)
             {
-                var fieldValue = searchObject($scope.entity.fieldValues,'field_id',field.id);
+                var fieldValue = searchObject($scope.entity.fieldValues, 'field_id', field.id);
                 if (fieldValue === undefined)
                 {
                     fieldValue = {};
                     fieldValue.field_id = field.id;
                     $scope.entity.fieldValues.push(fieldValue);
-                }                
+                }
                 fieldValue.value = $scope.getSelectedValue(field.selected);
             }
         }
-        
+
         if ($scope.validate())
         {
             var requestData = {
@@ -161,12 +151,8 @@ emsApp.controller("EntityController", function($scope, entityService)
                     }
                 }
             });
-        }        
+        }
     };
-    
-    $scope.search = function()
-    {
-        alert('Search thoi, ve nha lam nhe');
-        console.log($scope.fields);
-    };
+
+
 });

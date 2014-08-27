@@ -33,8 +33,8 @@ class URLModel {
         array("url" => "restapi/group-fields", "handle" => "RestController@getGroupFields", "type" => "post"),
         array("url" => "restapi/group-fields/save", "handle" => "RestController@saveGroupFields", "type" => "post"),
         //entities
-        array("url" => "restapi/entities/attributes", "handle" => "RestController@getAttributes", "type" => "post"),
         array("url" => "restapi/entities", "handle" => "RestController@getEntities", "type" => "post"),
+        array("url" => "restapi/entities/search", "handle" => "RestController@searchEntities", "type" => "post"),
         array("url" => "restapi/entity", "handle" => "RestController@getEntity", "type" => "post"),
         array("url" => "restapi/entity/save", "handle" => "RestController@saveEntity", "type" => "post"),
     );
