@@ -132,21 +132,47 @@ class Entity {
         return $entities;
     }
 
+    private static function getIdArray($array) {
+        $ids = array();
+        if ($array != null) {
+            foreach ($array as $a) {
+                array_push($ids, $a->id);
+            }
+        }
+        return $ids;
+    }
+
     public static function testSearch() {
         $entities = array();
 
-        $singleSearch = array(
-            array("field_id" => 107, "value" => 1),
-            array("field_id" => 108, "value" => 5),
+        $entityIds = DB::table("entities")->where("group_id", "=", 5)->select("id")->get();
+
+        $ids = self::getIdArray($entityIds);
+
+
+        //get text search
+        $searchFields = array(
+            array("fieldId" => 107, "selected" => "3", "fieldValueType" => "2"),
+            array("fieldId" => 108, "selected" => "5", "fieldValueType" => "2"),
+            array("fieldId" => 109, "selected" => array("10", "11"), "fieldValueType" => "3"),
+            array("fieldId" => 110, "selected" => array("13", "14", "15"), "fieldValueType" => "3"),
         );
 
-        $query = DB::table("entities")
-                ->join("entity_single_values", "entities.id", "=", 'entity_single_values.entity_id');
-        
-        
-        
-        $entities = $query->select("entities.id")->get();
-        
+        foreach ($searchFields as $searchField) {
+            if ($searchField["fieldValueType"] == 2) {
+                $entityIds = DB::table("entity_single_values")->select("entity_id as id")->get();
+                $ids = self::getIdArray($entityIds);
+            } else if ($searchField["fieldValueType"] == 3) {
+                
+            }
+        }
+
+
+
+        var_dump($ids);
+
+
+
         return $entities;
     }
 
