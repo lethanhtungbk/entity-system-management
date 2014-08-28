@@ -15,8 +15,12 @@ class Entity {
     public $fieldValues = array();
     public $groupId;
 
-    public static function getEntities($groupId) {
-        return DB::table('entities')->select('id', 'name', 'group_id')->get();
+    public static function getEntities($groupId, $includeIds = null) {
+        if ($includeIds == null || count($includeIds) == 0) {
+            return DB::table('entities')->select('id', 'name', 'group_id')->where('group_id', '=', $groupId)->get();
+        } else {
+            return DB::table('entities')->select('id', 'name', 'group_id')->where('group_id', '=', $groupId)->whereIn('id', $includeIds)->get();
+        }
     }
 
     public static function getEntity($id) {
@@ -128,7 +132,72 @@ class Entity {
     public static function searchEntities($groupId, $searchFields, $textsearch) {
         $entities = array();
 
+        //get all entityId in group
+        $entityIds = DB::table("entities")->where("group_id", "=", 5)->select("id")->get();
+        $ids = self::getIdArray($entityIds);
 
+        if (count($ids) == 0) {
+            return $entities;
+        }
+
+        //search text first
+        if ($textsearch != "") {
+            //1. Get all text-field type
+            $textSearchFields = DB::table('fields')
+                    ->join('group_fields', 'fields.id', '=', 'group_fields.field_id')
+                    ->join('field_types', 'fields.field_type_id', '=', 'field_types.id')
+                    ->where('group_fields.group_id', '=', $groupId)
+                    ->where('field_types.groupId', '=', 1)
+                    ->select('fields.id')
+                    ->get();
+
+            $textSearchFieldIds = self::getIdArray($textSearchFields);
+            if (count($textSearchFieldIds) > 0) {
+                $entityIds = DB::table("entity_single_values")
+                        ->whereIn("entity_id", $ids)
+                        ->whereIn("field_id", $textSearchFieldIds)
+                        ->where("value", "LIKE", "%" . $textsearch . "%")
+                        ->select("entity_id as id")
+                        ->distinct()
+                        ->get();
+                $ids = self::getIdArray($entityIds);
+                if (count($ids) == 0) {
+                    return $entities;
+                }
+            }
+        }
+
+        //search value selected fields
+        foreach ($searchFields as $searchField) {
+            $searchField = (object) $searchField;
+            if ($searchField->fieldValueType == 2) {
+                $entityIds = DB::table("entity_single_values")
+                                ->whereIn("entity_id", $ids)
+                                ->where("field_id", "=", $searchField->fieldId)
+                                ->where("value", "=", $searchField->selected)
+                                ->select("entity_id as id")->get();
+                $ids = self::getIdArray($entityIds);
+            } else if ($searchField->fieldValueType == 3) {
+                $selected = $searchField->selected;
+                foreach ($selected as $index => $s) {
+                    $entityIds = DB::table("entity_multi_values")
+                                    ->whereIn("entity_id", $ids)
+                                    ->where("field_id", "=", $searchField->fieldId)
+                                    ->where("value", "=", $s)
+                                    ->select("entity_id as id")->get();
+
+                    if (count($ids) == 0) {
+                        return $entities;
+                    }
+                }
+            }
+
+            if (count($ids) == 0) {
+                return $entities;
+            }
+        }
+
+        $entities = self::getEntities($groupId, $ids);
         return $entities;
     }
 
@@ -143,37 +212,15 @@ class Entity {
     }
 
     public static function testSearch() {
-        $entities = array();
-
-        $entityIds = DB::table("entities")->where("group_id", "=", 5)->select("id")->get();
-
-        $ids = self::getIdArray($entityIds);
-
-
-        //get text search
         $searchFields = array(
-            array("fieldId" => 107, "selected" => "3", "fieldValueType" => "2"),
+            array("fieldId" => 107, "selected" => "1", "fieldValueType" => "2"),
             array("fieldId" => 108, "selected" => "5", "fieldValueType" => "2"),
-            array("fieldId" => 109, "selected" => array("10", "11"), "fieldValueType" => "3"),
-            array("fieldId" => 110, "selected" => array("13", "14", "15"), "fieldValueType" => "3"),
+            array("fieldId" => 109, "selected" => array(9), "fieldValueType" => "3"),
+            array("fieldId" => 110, "selected" => array("13", "14"), "fieldValueType" => "3"),
         );
 
-        foreach ($searchFields as $searchField) {
-            if ($searchField["fieldValueType"] == 2) {
-                $entityIds = DB::table("entity_single_values")->select("entity_id as id")->get();
-                $ids = self::getIdArray($entityIds);
-            } else if ($searchField["fieldValueType"] == 3) {
-                
-            }
-        }
 
-
-
-        var_dump($ids);
-
-
-
-        return $entities;
+        return self::searchEntities(5, $searchFields, "T");
     }
 
 }

@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-md-4 form-group" ng-if="hasTextSearch">
                         <label>Search</label>                         
-                        <input type="text" class="form-control" ng-model="textSearch"/>
+                        <input type="text" class="form-control" ng-model="textSearch.value"/>
                     </div>
                     <div class="col-md-4 form-group" ng-repeat="field in fields">
                         <label>@{{field.name}}</label>                         
@@ -37,6 +37,7 @@
                     <div class="col-md-12">
                         <div class="btn-group tabletools-btn-group pull-right">
                             <a ng-click="search()" class="btn blue"><i class="fa fa-search"></i> Search</a>
+                            <a ng-click="resetSearch()" class="btn blue"><i class="fa fa-recycle"></i> Reset search</a>
                             <input type="hidden" value="{{$templateData->groupLink}}" id="link"/>
                         </div>
                     </div>

@@ -213,10 +213,11 @@ class RestController extends BaseController {
     {
         $input = Input::all();
         $groupLink = InputHelper::getInput('link', $input);
+        $searchText = InputHelper::getInput('searchText', $input);
         $group = Group::getGroupByLink($groupLink);
         if ($group != null) {
             $searchFields = InputHelper::getInput('fields',$input);
-            $entities = Entity::searchEntities($group->id, $searchFields, "");
+            $entities = Entity::searchEntities($group->id, $searchFields, $searchText);
             return Response::json($entities);
         } else {
             //TODO: need implement cannot find group case
